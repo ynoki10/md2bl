@@ -50,3 +50,60 @@ ESMプロジェクト (`"type": "module"`) のため、import時は `.js` 拡張
 | ブロック間空行 | 原則除去（段落→段落 の間のみ維持） |
 
 未対応要素（画像・HTMLタグ）はstderrに警告を出してスキップ。YAMLフロントマターはそのまま出力。
+
+## ブランチ戦略・開発ワークフロー
+
+新しい作業は必ず feature ブランチで行い、PR 経由で main にマージする。
+（main への直 push はブランチ保護により禁止）
+
+```
+main          ← 常にリリース可能な状態
+feat/xxx      ← 機能追加
+fix/xxx       ← バグ修正
+docs/xxx      ← ドキュメントのみの変更
+chore/xxx     ← 設定変更・依存更新
+```
+
+### コミットメッセージ規約（Conventional Commits）
+
+```
+feat: 新機能
+fix: バグ修正
+docs: ドキュメントのみ
+chore: ビルド・設定・依存関係の変更
+test: テストのみ
+refactor: リファクタリング
+```
+
+例: `feat: add support for definition lists`
+
+### PR 作成・マージの流れ
+
+```bash
+git switch -c feat/xxx
+# ... 変更・コミット ...
+git push origin feat/xxx
+gh pr create --title "feat: xxx" --body "..."
+# CI（GitHub Actions）が通ったらマージ
+gh pr merge --squash
+```
+
+## リリース手順
+
+```bash
+# 1. バージョン更新（package.json の version フィールドを手動編集）
+# 2. ビルド
+npm run build
+
+# 3. 公開内容を dry-run で確認（dist/, README.md, LICENSE のみ含まれること）
+npm publish --dry-run
+
+# 4. 本公開
+npm publish
+```
+
+## npm パッケージ情報
+
+- パッケージ名: `md2bl`
+- npm URL: https://www.npmjs.com/package/md2bl
+- インストール: `npm install -g md2bl`
