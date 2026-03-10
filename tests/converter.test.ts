@@ -23,7 +23,7 @@ describe("コードブロック", () => {
     expect(convert("```\ncode here\n```")).toBe("{code}\ncode here\n{/code}"));
   it("コードブロック（言語あり）", () =>
     expect(convert("```typescript\nconst x = 1;\n```")).toBe(
-      "{code:typescript}\nconst x = 1;\n{/code}"
+      "{code}\nconst x = 1;\n{/code}"
     ));
 });
 
@@ -34,7 +34,11 @@ describe("リンク", () => {
     ));
   it("テキストがURLと同じ場合はURLのみ", () =>
     expect(convert("[https://backlog.com](https://backlog.com)")).toBe(
-      "[[https://backlog.com]]"
+      "https://backlog.com"
+    ));
+  it("裸のURL文字列はリンク化しない", () =>
+    expect(convert("Visit https://example.com for details")).toBe(
+      "Visit https://example.com for details"
     ));
 });
 
@@ -83,5 +87,10 @@ describe("段落", () => {
   it("通常テキスト", () =>
     expect(convert("Hello, world!")).toBe("Hello, world!"));
   it("複数段落", () =>
-    expect(convert("para1\n\npara2")).toBe("para1\n\npara2"));
+    expect(convert("para1\n\npara2")).toBe("para1\npara2"));
+});
+
+describe("空行圧縮", () => {
+  it("ブロック間の空行は削除される", () =>
+    expect(convert("para1\n\npara2")).toBe("para1\npara2"));
 });

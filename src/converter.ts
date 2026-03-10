@@ -12,5 +12,6 @@ const processor = unified()
 
 export function convert(markdown: string): string {
   const tree = processor.parse(markdown) as Root;
-  return compileNode(tree);
+  const output = compileNode(tree);
+  return output.replace(/\n(\n+)/g, "$1");
 }

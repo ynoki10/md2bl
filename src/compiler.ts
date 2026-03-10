@@ -121,8 +121,7 @@ function compileDelete(node: Delete, ctx: CompileContext): string {
 }
 
 function compileCode(node: Code): string {
-  const lang = node.lang ? `:${node.lang}` : "";
-  return `{code${lang}}\n${node.value}\n{/code}`;
+  return `{code}\n${node.value}\n{/code}`;
 }
 
 function compileLink(node: Link, ctx: CompileContext): string {
@@ -130,7 +129,7 @@ function compileLink(node: Link, ctx: CompileContext): string {
   if (text && text !== node.url) {
     return `[[${text}:${node.url}]]`;
   }
-  return `[[${node.url}]]`;
+  return node.url;
 }
 
 function compileBlockquote(node: Blockquote, ctx: CompileContext): string {
