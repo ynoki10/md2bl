@@ -23,7 +23,7 @@
   "author": "ynoki10",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ynoki10/md2bl.git"
+    "url": "git+https://github.com/ynoki10/md2bl.git"
   },
   "homepage": "https://github.com/ynoki10/md2bl#readme",
   "bugs": {
