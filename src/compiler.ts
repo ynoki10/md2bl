@@ -81,7 +81,7 @@ export function compileNode(node: Node, ctx: CompileContext = makeContext()): st
       return `---\n${(node as unknown as { value: string }).value}\n---`;
     default:
       process.stderr.write(
-        `[md2bklog] WARNING: unsupported node type "${node.type}" — skipped\n`
+        `[md2bl] WARNING: unsupported node type "${node.type}" — skipped\n`
       );
       return "";
   }
@@ -206,14 +206,14 @@ function compileListItem(node: ListItem, ctx: CompileContext): string {
 
 function compileImage(node: Image): string {
   process.stderr.write(
-    `[md2bklog] WARNING: image "${node.url}" is not supported in Backlog notation — skipped\n`
+    `[md2bl] WARNING: image "${node.url}" is not supported in Backlog notation — skipped\n`
   );
   return "";
 }
 
 function compileHtml(node: Html): string {
   process.stderr.write(
-    `[md2bklog] WARNING: raw HTML is not supported in Backlog notation — skipped\n`
+    `[md2bl] WARNING: raw HTML is not supported in Backlog notation — skipped\n`
   );
   return "";
 }

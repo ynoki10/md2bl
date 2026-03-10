@@ -1,11 +1,11 @@
 {
-  "name": "md2bklog",
+  "name": "md2bl",
   "version": "0.1.0",
   "description": "Convert Markdown to Backlog notation",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "md2bklog": "dist/index.js"
+    "md2bl": "dist/index.js"
   },
   "scripts": {
     "build": "tsc",
@@ -20,6 +20,20 @@
     "cli"
   ],
   "license": "MIT",
+  "author": "ynoki10",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ynoki10/md2bl.git"
+  },
+  "homepage": "https://github.com/ynoki10/md2bl#readme",
+  "bugs": {
+    "url": "https://github.com/ynoki10/md2bl/issues"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
   "dependencies": {
     "remark": "^15.0.1",
     "remark-frontmatter": "^5.0.0",

@@ -1,4 +1,6 @@
-# md2bklog
+# md2bl
+
+[![npm version](https://badge.fury.io/js/md2bl.svg)](https://www.npmjs.com/package/md2bl)
 
 Markdown を [Backlog 記法](https://backlog.com/ja/help/usersguide/project-wiki/userguide2376/) に変換する CLI ツール。
 
@@ -9,11 +11,7 @@ Claude Code などの AI エージェントが出力した Markdown を、Backlo
 Node.js 18 以上が必要です。
 
 ```sh
-git clone <this-repo>
-cd md2bklog
-npm install
-npm run build
-npm link        # md2bklog コマンドをグローバル登録
+npm install -g md2bl
 ```
 
 ## 使い方
@@ -21,20 +19,20 @@ npm link        # md2bklog コマンドをグローバル登録
 ### ファイルを変換する
 
 ```sh
-md2bklog input.md
+md2bl input.md
 ```
 
 ### stdin から受け取る（パイプ）
 
 ```sh
-cat input.md | md2bklog
-echo "# Hello" | md2bklog
+cat input.md | md2bl
+echo "# Hello" | md2bl
 ```
 
 ### ファイルに書き出す
 
 ```sh
-md2bklog input.md > output.txt
+md2bl input.md > output.txt
 ```
 
 ### AI エージェントとの連携例
@@ -43,7 +41,7 @@ Claude Code などが出力した Markdown をそのまま Backlog MCP サーバ
 
 ```sh
 # Markdown を変換して Backlog 課題のコメントに貼る
-md2bklog draft.md
+md2bl draft.md
 # → stdout に Backlog 記法が出力されるので、MCP ツール等に渡す
 ```
 
