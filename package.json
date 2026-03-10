@@ -1,0 +1,35 @@
+{
+  "name": "md2bklog",
+  "version": "0.1.0",
+  "description": "Convert Markdown to Backlog notation",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "md2bklog": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "markdown",
+    "backlog",
+    "converter",
+    "cli"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "remark": "^15.0.1",
+    "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.1",
+    "unified": "^11.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.9"
+  }
+}
