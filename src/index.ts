@@ -23,7 +23,7 @@ async function main(): Promise<void> {
     try {
       input = readFileSync(filePath, "utf8");
     } catch (err) {
-      process.stderr.write(`[md2bklog] ERROR: cannot read file "${filePath}"\n`);
+      process.stderr.write(`[md2bl] ERROR: cannot read file "${filePath}"\n`);
       process.exit(1);
     }
   } else if (!process.stdin.isTTY) {
@@ -31,7 +31,7 @@ async function main(): Promise<void> {
     input = await readStdin();
   } else {
     process.stderr.write(
-      "Usage: md2bklog <file.md>\n       cat file.md | md2bklog\n"
+      "Usage: md2bl <file.md>\n       cat file.md | md2bl\n"
     );
     process.exit(1);
   }
@@ -41,6 +41,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-  process.stderr.write(`[md2bklog] ERROR: ${err.message}\n`);
+  process.stderr.write(`[md2bl] ERROR: ${err.message}\n`);
   process.exit(1);
 });

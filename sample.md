@@ -5,7 +5,7 @@ date: 2026-03-10
 
 # プロジェクト概要
 
-これは**md2bklog**のサンプルMarkdownファイルです。
+これは**md2bl**のサンプルMarkdownファイルです。
 
 ## 機能一覧
 
@@ -19,10 +19,10 @@ date: 2026-03-10
 
 ```bash
 # ファイルから変換
-md2bklog input.md
+md2bl input.md
 
 # パイプで使用
-cat input.md | md2bklog
+cat input.md | md2bl
 ```
 
 ### コードサンプル
