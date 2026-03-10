@@ -87,10 +87,18 @@ describe("段落", () => {
   it("通常テキスト", () =>
     expect(convert("Hello, world!")).toBe("Hello, world!"));
   it("複数段落", () =>
-    expect(convert("para1\n\npara2")).toBe("para1\npara2"));
+    expect(convert("para1\n\npara2")).toBe("para1\n\npara2"));
 });
 
-describe("空行圧縮", () => {
-  it("ブロック間の空行は削除される", () =>
-    expect(convert("para1\n\npara2")).toBe("para1\npara2"));
+describe("空行ルール", () => {
+  it("段落→段落: 空行維持", () =>
+    expect(convert("para1\n\npara2")).toBe("para1\n\npara2"));
+  it("見出し→段落: 空行削除", () =>
+    expect(convert("# H\n\npara")).toBe("* H\npara"));
+  it("段落→見出し: 空行削除", () =>
+    expect(convert("para\n\n# H")).toBe("para\n* H"));
+  it("リスト→段落: 空行削除", () =>
+    expect(convert("- item\n\npara")).toBe("- item\npara"));
+  it("コードブロック→段落: 空行削除", () =>
+    expect(convert("```\ncode\n```\n\npara")).toBe("{code}\ncode\n{/code}\npara"));
 });

@@ -89,13 +89,23 @@ export function compileNode(node: Node, ctx: CompileContext = makeContext()): st
 
 function compileRoot(node: Root, ctx: CompileContext): string {
   const parts: string[] = [];
+  const types: string[] = [];
+
   for (const child of node.children) {
     const compiled = compileNode(child, ctx);
     if (compiled !== "") {
       parts.push(compiled);
+      types.push(child.type);
     }
   }
-  return parts.join("\n\n");
+
+  return parts.reduce((acc, part, i) => {
+    if (i === 0) return part;
+    const prevType = types[i - 1];
+    const currType = types[i];
+    const separator = prevType === "paragraph" && currType === "paragraph" ? "\n\n" : "\n";
+    return acc + separator + part;
+  }, "");
 }
 
 function compileHeading(node: Heading, ctx: CompileContext): string {
