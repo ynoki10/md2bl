@@ -4,7 +4,7 @@
 
 Markdown を [Backlog 記法](https://backlog.com/ja/help/usersguide/project-wiki/userguide2376/) に変換する CLI ツール。
 
-Claude Code などの AI エージェントが出力した Markdown を、Backlog の課題・Wiki・PR にそのまま貼れる形式へ変換するユースケースを想定して設計されています。stdin/stdout のパイプに対応しているため、AI エージェントのツール呼び出しや Shell スクリプトに組み込みやすいのが特徴です。
+Markdown を Backlog の課題・Wiki・PR にそのまま貼れる形式へ変換します。stdin/stdout のパイプに対応しているため、Shell スクリプトや各種ツールに組み込みやすいのが特徴です。
 
 ## インストール
 
@@ -33,16 +33,6 @@ echo "# Hello" | md2bl
 
 ```sh
 md2bl input.md > output.txt
-```
-
-### AI エージェントとの連携例
-
-Claude Code などが出力した Markdown をそのまま Backlog MCP サーバー経由で投稿するワークフロー:
-
-```sh
-# Markdown を変換して Backlog 課題のコメントに貼る
-md2bl draft.md
-# → stdout に Backlog 記法が出力されるので、MCP ツール等に渡す
 ```
 
 ## 変換ルール
