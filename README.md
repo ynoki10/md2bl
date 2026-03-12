@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/md2bl.svg)](https://www.npmjs.com/package/md2bl)
 
-Markdown を [Backlog 記法](https://backlog.com/ja/help/usersguide/project-wiki/userguide2376/) に変換する CLI ツール。
+Markdown を [Backlog 記法](https://support-ja.backlog.com/hc/ja/articles/360035641594-%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E6%95%B4%E5%BD%A2%E3%81%AE%E3%83%AB%E3%83%BC%E3%83%AB-Backlog%E8%A8%98%E6%B3%95) に変換する CLI ツール。
 
 Claude Code などの AI エージェントが出力した Markdown を、Backlog の課題・Wiki・PR にそのまま貼れる形式へ変換するユースケースを想定して設計されています。stdin/stdout のパイプに対応しているため、AI エージェントのツール呼び出しや Shell スクリプトに組み込みやすいのが特徴です。
 
