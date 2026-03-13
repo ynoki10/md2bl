@@ -1,131 +1,133 @@
+English | [日本語](./README.ja.md)
+
 # md2bl
 
 [![npm version](https://badge.fury.io/js/md2bl.svg)](https://www.npmjs.com/package/md2bl)
 
-Markdown を [Backlog 記法](https://support-ja.backlog.com/hc/ja/articles/360035641594-%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E6%95%B4%E5%BD%A2%E3%81%AE%E3%83%AB%E3%83%BC%E3%83%AB-Backlog%E8%A8%98%E6%B3%95) に変換する CLI ツール。
+A CLI tool to convert Markdown to [Backlog notation](https://support.nulab.com/hc/en-us/articles/8775439725721-Backlog-text-formatting-rules).
 
-Markdown を Backlog の課題・Wiki・PR にそのまま貼れる形式へ変換します。stdin/stdout のパイプに対応しているため、Shell スクリプトや各種ツールに組み込みやすいのが特徴です。
+Converts Markdown into a format that can be pasted directly into Backlog issues, Wikis, and PRs. Supports stdin/stdout piping, making it easy to integrate into shell scripts and other tools.
 
-## インストール
+## Installation
 
-Node.js 18 以上が必要です。
+Requires Node.js 18 or later.
 
 ```sh
 npm install -g md2bl
 ```
 
-## 使い方
+## Usage
 
-### ファイルを変換する
+### Convert a file
 
 ```sh
 md2bl input.md
 ```
 
-### stdin から受け取る（パイプ）
+### Read from stdin (pipe)
 
 ```sh
 cat input.md | md2bl
 echo "# Hello" | md2bl
 ```
 
-### ファイルに書き出す
+### Write to a file
 
 ```sh
 md2bl input.md > output.txt
 ```
 
-## 変換例
+## Conversion Example
 
-**入力（Markdown）:**
+**Input (Markdown):**
 
 ````md
-# 見出し1
+# Heading 1
 
-最初の段落。**太字**と*斜体*も使えます。
+First paragraph. You can use **bold** and *italic* text.
 
-2つ目の段落（空行が維持されます）。
+Second paragraph (blank lines between paragraphs are preserved).
 
-- リスト1
-  - ネスト
-- リスト2
+- List item 1
+  - Nested item
+- List item 2
 
-1. 番号付き1
-2. 番号付き2
+1. Ordered item 1
+2. Ordered item 2
 
-[リンク](https://example.com)
+[Link](https://example.com)
 
-| 列A | 列B |
-|-----|-----|
-| 値1 | 値2 |
+| Col A | Col B |
+|-------|-------|
+| Val 1 | Val 2 |
 ````
 
-**出力（Backlog 記法）:**
+**Output (Backlog notation):**
 
 ```
-* 見出し1
-最初の段落。''太字''と'''斜体'''も使えます。
+* Heading 1
+First paragraph. You can use ''bold'' and '''italic''' text.
 
-2つ目の段落（空行が維持されます）。
-- リスト1
--- ネスト
-- リスト2
-+ 番号付き1
-+ 番号付き2
-[[リンク:https://example.com]]
-| h 列A | h 列B |
-| 値1 | 値2 |
+Second paragraph (blank lines between paragraphs are preserved).
+- List item 1
+-- Nested item
+- List item 2
++ Ordered item 1
++ Ordered item 2
+[[Link:https://example.com]]
+| h Col A | h Col B |
+| Val 1 | Val 2 |
 ```
 
-## 変換ルール
+## Conversion Rules
 
-| Markdown | Backlog 記法 |
-|----------|-------------|
-| `# 見出し1` | `* 見出し1` |
-| `## 見出し2` | `** 見出し2` |
-| `### 見出し3` | `*** 見出し3` |
-| `**太字**` | `''太字''` |
-| `*斜体*` | `'''斜体'''` |
-| `~~取り消し~~` | `%%取り消し%%` |
-| `` `インラインコード` `` | `{code}インラインコード{/code}` |
+| Markdown | Backlog Notation |
+|----------|-----------------|
+| `# Heading 1` | `* Heading 1` |
+| `## Heading 2` | `** Heading 2` |
+| `### Heading 3` | `*** Heading 3` |
+| `**bold**` | `''bold''` |
+| `*italic*` | `'''italic'''` |
+| `~~strikethrough~~` | `%%strikethrough%%` |
+| `` `inline code` `` | `{code}inline code{/code}` |
 | ` ```lang` ... ` ``` ` | `{code}` ... `{/code}` |
-| `[テキスト](URL)` (テキスト≠URL) | `[[テキスト:URL]]` |
-| `[URL](URL)` / 裸の URL | URL をそのまま出力 |
-| `> 引用` | `> 引用` |
+| `[text](URL)` (text≠URL) | `[[text:URL]]` |
+| `[URL](URL)` / bare URL | URL output as-is |
+| `> blockquote` | `> blockquote` |
 | `---` | `----` |
-| `- 箇条書き` | `- 箇条書き` |
-| `- ネスト` (2階層) | `-- ネスト` |
-| `1. 番号付き` | `+ 番号付き` |
-| `1. ネスト` (2階層) | `++ ネスト` |
-| テーブル | ヘッダー行のセルに `h ` プレフィックス |
-| YAML フロントマター | そのまま出力 |
+| `- item` | `- item` |
+| `- nested` (2 levels) | `-- nested` |
+| `1. item` | `+ item` |
+| `1. nested` (2 levels) | `++ nested` |
+| Table | Header row cells get `h ` prefix |
+| YAML front matter | Output as-is |
 
-> **注:** ブロック間の空行は原則除去されます。ただし **段落→段落** の間の空行のみ維持されます。
+> **Note:** Blank lines between blocks are removed by default. Only blank lines between **paragraph → paragraph** are preserved.
 
-### 未対応要素
+### Unsupported Elements
 
-以下の要素は変換をスキップし、`stderr` に警告を出力します。
+The following elements are skipped with a warning output to `stderr`.
 
-- 画像 (`![alt](url)`)
-- 生 HTML
-- 脚注
+- Images (`![alt](url)`)
+- Raw HTML
+- Footnotes
 
-## 開発
+## Development
 
 ```sh
-npm run dev          # tsx で直接実行（ビルド不要）
-npm test             # vitest でテスト実行
-npm run build        # TypeScript をビルド
+npm run dev          # Run directly with tsx (no build required)
+npm test             # Run tests with vitest
+npm run build        # Build TypeScript
 ```
 
-## 技術スタック
+## Tech Stack
 
 - TypeScript / Node.js (ESM)
-- [unified](https://unifiedjs.com/) / [remark](https://github.com/remarkjs/remark) — Markdown の AST パース
-- [remark-gfm](https://github.com/remarkjs/remark-gfm) — GitHub Flavored Markdown 対応
-- [remark-frontmatter](https://github.com/remarkjs/remark-frontmatter) — YAML フロントマター対応
-- [vitest](https://vitest.dev/) — テスト
+- [unified](https://unifiedjs.com/) / [remark](https://github.com/remarkjs/remark) — Markdown AST parsing
+- [remark-gfm](https://github.com/remarkjs/remark-gfm) — GitHub Flavored Markdown support
+- [remark-frontmatter](https://github.com/remarkjs/remark-frontmatter) — YAML front matter support
+- [vitest](https://vitest.dev/) — Testing
 
-## ライセンス
+## License
 
 MIT
