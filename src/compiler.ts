@@ -169,11 +169,8 @@ function compileTableRow(
   ctx: CompileContext
 ): string {
   const cells = node.children as TableCell[];
-  const compiled = cells.map((cell) => {
-    const content = compileChildren(cell.children, ctx);
-    return isHeader ? `h ${content}` : content;
-  });
-  return `| ${compiled.join(" | ")} |`;
+  const compiled = cells.map((cell) => compileChildren(cell.children, ctx));
+  return `| ${compiled.join(" | ")} |${isHeader ? "h" : ""}`;
 }
 
 function compileList(node: List, ctx: CompileContext): string {

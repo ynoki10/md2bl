@@ -68,7 +68,7 @@ describe("リスト", () => {
 describe("テーブル", () => {
   it("シンプルなテーブル", () => {
     const md = `| Name | Age |\n| --- | --- |\n| Alice | 30 |`;
-    const expected = `| h Name | h Age |\n| Alice | 30 |`;
+    const expected = `| Name | Age |h\n| Alice | 30 |`;
     expect(convert(md)).toBe(expected);
   });
 });
