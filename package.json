@@ -1,7 +1,7 @@
 {
   "name": "md2bl",
   "version": "0.1.1",
-  "description": "Convert Markdown to Backlog notation",
+  "description": "A CLI tool to convert Markdown to Backlog notation",
   "type": "module",
   "main": "dist/index.js",
   "bin": {

@@ -6,7 +6,7 @@ English | [日本語](./README.ja.md)
 
 A CLI tool to convert Markdown to [Backlog notation](https://support.nulab.com/hc/en-us/articles/8775439725721-Backlog-text-formatting-rules).
 
-Converts Markdown into a format that can be pasted directly into Backlog issues, Wikis, and PRs. Supports stdin/stdout piping, making it easy to integrate into shell scripts and other tools.
+Converts Markdown into a format that can be pasted directly into issues, Wikis, and PRs in Backlog projects that use Backlog notation. Supports stdin/stdout piping, making it easy to integrate into shell scripts and other tools.
 
 ## Installation
 
