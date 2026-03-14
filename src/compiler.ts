@@ -103,7 +103,10 @@ function compileRoot(node: Root, ctx: CompileContext): string {
     if (i === 0) return part;
     const prevType = types[i - 1];
     const currType = types[i];
-    const separator = prevType === "paragraph" && currType === "paragraph" ? "\n\n" : "\n";
+    const needsBlankLine =
+      (prevType === "paragraph" && currType === "paragraph") ||
+      (prevType === "list" && currType === "list");
+    const separator = needsBlankLine ? "\n\n" : "\n";
     return acc + separator + part;
   }, "");
 }
