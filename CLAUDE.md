@@ -12,6 +12,12 @@ npm run dev          # tsx でビルドなし実行 (開発用)
 npx vitest run tests/converter.test.ts  # 単一テスト実行例
 ```
 
+ビルド後のバイナリ実行:
+```bash
+node dist/index.js input.md
+cat input.md | node dist/index.js
+```
+
 ## アーキテクチャ
 
 変換パイプライン: **stdin/ファイル → `convert()` → AST → `compileNode()` → Backlog記法文字列 → stdout**
