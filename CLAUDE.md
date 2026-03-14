@@ -51,6 +51,15 @@ ESMプロジェクト (`"type": "module"`) のため、import時は `.js` 拡張
 
 未対応要素（画像・HTMLタグ）はstderrに警告を出してスキップ。YAMLフロントマターはそのまま出力。
 
+## 変換ルール変更時の注意
+
+変換ルールを修正・追加した場合、以下すべてを更新すること:
+- `src/compiler.ts` — 実装
+- `tests/converter.test.ts` — テスト
+- `CLAUDE.md` — 変換ルール早見表
+- `README.md` — Conversion Rules 表 + 変換例
+- `README.ja.md` — 変換ルール表 + 変換例
+
 ## ブランチ戦略・開発ワークフロー
 
 新しい作業は必ず feature ブランチで行い、PR 経由で main にマージする。
