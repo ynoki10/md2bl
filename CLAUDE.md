@@ -28,5 +28,6 @@ npx vitest run tests/converter.test.ts  # 単一テスト実行例
 ## 関連ドキュメントの所在
 
 - コーディングルール → `.claude/rules/`
-- ワークフロー・手順 → `.claude/skills/`
+- PR 作成手順 → `.claude/skills/pr-workflow.md`
 - 変換ルール早見表 → `docs/conversion-rules.md`
+- リリース手順 → `docs/release-process.md`
