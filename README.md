@@ -72,6 +72,7 @@ Second paragraph (blank lines between paragraphs are preserved).
 - List item 1
 -- Nested item
 - List item 2
+
 + Ordered item 1
 + Ordered item 2
 [[Link:https://example.com]]
@@ -102,7 +103,7 @@ Second paragraph (blank lines between paragraphs are preserved).
 | Table | Header row ends with `h` suffix |
 | YAML front matter | Output as-is |
 
-> **Note:** Blank lines between blocks are removed by default. Only blank lines between **paragraph → paragraph** are preserved.
+> **Note:** Blank lines between blocks are removed by default. Only blank lines between **paragraph → paragraph** and **list → list** are preserved.
 
 ### Unsupported Elements
 

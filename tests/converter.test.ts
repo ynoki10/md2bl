@@ -101,4 +101,6 @@ describe("空行ルール", () => {
     expect(convert("- item\n\npara")).toBe("- item\npara"));
   it("コードブロック→段落: 空行削除", () =>
     expect(convert("```\ncode\n```\n\npara")).toBe("{code}\ncode\n{/code}\npara"));
+  it("リスト→リスト: 空行維持", () =>
+    expect(convert("- item1\n\n1. item2")).toBe("- item1\n\n+ item2"));
 });
