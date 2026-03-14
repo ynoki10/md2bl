@@ -88,19 +88,23 @@ gh pr create --title "feat: xxx" --body "..."
 gh pr merge --squash
 ```
 
-## リリース手順
+## リリース手順（自動化済み）
 
-```bash
-# 1. バージョン更新（package.json の version フィールドを手動編集）
-# 2. ビルド
-npm run build
+Conventional Commits 形式でコミットして main にマージするだけ。
+release-please が Release PR を自動作成・更新し、Release PR をマージすると自動でリリースされる。
 
-# 3. 公開内容を dry-run で確認（dist/, README.md, LICENSE のみ含まれること）
-npm publish --dry-run
+詳細フロー:
+1. `feat:` / `fix:` コミットが main に入る
+2. release-please が「Release PR」を自動作成・更新（CHANGELOG・package.json のバージョンを更新）
+3. Release PR をマージ → Git タグ・GitHub Release・npm publish が自動実行
 
-# 4. 本公開
-npm publish
-```
+バージョニング規則:
+
+| コミット種別 | バージョン変更 |
+|---|---|
+| `fix:` | PATCH (0.1.0 → 0.1.1) |
+| `feat:` | MINOR (0.1.0 → 0.2.0) |
+| `feat!:` / `BREAKING CHANGE:` | v0.x の間は MINOR、v1.0.0 以降は MAJOR |
 
 ## npm パッケージ情報
 
