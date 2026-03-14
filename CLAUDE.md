@@ -45,11 +45,20 @@ ESMプロジェクト (`"type": "module"`) のため、import時は `.js` 拡張
 | `---` | `----` |
 | `- item` / `  - nested` | `- item` / `-- nested` |
 | `1. item` / `   1. nested` | `+ item` / `++ nested` |
-| テーブルヘッダー行 | セルに `h ` プレフィックス |
+| テーブルヘッダー行 | 行末に `h` を付与 |
 | 改行 (`<br>`) | `&br;` |
 | ブロック間空行 | 原則除去（段落→段落 の間のみ維持） |
 
 未対応要素（画像・HTMLタグ）はstderrに警告を出してスキップ。YAMLフロントマターはそのまま出力。
+
+## 変換ルール変更時の注意
+
+変換ルールを修正・追加した場合、以下すべてを更新すること:
+- `src/compiler.ts` — 実装
+- `tests/converter.test.ts` — テスト
+- `CLAUDE.md` — 変換ルール早見表
+- `README.md` — Conversion Rules 表 + 変換例
+- `README.ja.md` — 変換ルール表 + 変換例
 
 ## ブランチ戦略・開発ワークフロー
 

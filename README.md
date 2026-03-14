@@ -75,7 +75,7 @@ Second paragraph (blank lines between paragraphs are preserved).
 + Ordered item 1
 + Ordered item 2
 [[Link:https://example.com]]
-| h Col A | h Col B |
+| Col A | Col B |h
 | Val 1 | Val 2 |
 ```
 
@@ -99,7 +99,7 @@ Second paragraph (blank lines between paragraphs are preserved).
 | `- nested` (2 levels) | `-- nested` |
 | `1. item` | `+ item` |
 | `1. nested` (2 levels) | `++ nested` |
-| Table | Header row cells get `h ` prefix |
+| Table | Header row ends with `h` suffix |
 | YAML front matter | Output as-is |
 
 > **Note:** Blank lines between blocks are removed by default. Only blank lines between **paragraph → paragraph** are preserved.
