@@ -118,6 +118,7 @@ Second paragraph (blank lines between paragraphs are preserved).
 | `1. nested` (2 levels) | `++ nested` |
 | `- [ ] text` / `- [x] text` | `- [ ] text` / `- [x] text` |
 | `1. [ ] text` / `1. [x] text` | `+ [ ] text` / `+ [x] text` |
+| `![alt](url)` | `#image(url)` |
 | Table | Header row ends with `h` suffix |
 | YAML front matter | Output as-is |
 
@@ -129,7 +130,6 @@ Second paragraph (blank lines between paragraphs are preserved).
 
 The following elements are skipped with a warning output to `stderr`.
 
-- Images (`![alt](url)`)
 - Raw HTML
 - Footnotes
 
