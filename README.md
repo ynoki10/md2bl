@@ -8,6 +8,14 @@ A CLI tool to convert Markdown to [Backlog notation](https://support.nulab.com/h
 
 Converts Markdown into a format that can be pasted directly into issues, Wikis, and PRs in Backlog projects that use Backlog notation. Supports stdin/stdout piping, making it easy to integrate into shell scripts and other tools.
 
+## Why md2bl?
+
+AI tools like ChatGPT and Gemini output Markdown, but many Backlog spaces still use Backlog notation. Pasting AI-generated Markdown into these spaces breaks formatting.
+
+Rather than teaching AI tools Backlog notation (which wastes tokens and limits output versatility), it's simpler to let AI write standard Markdown and convert it afterward — the conversion is purely mechanical.
+
+> **Note:** Since May 2025, Backlog defaults to Markdown (GFM) for new spaces, but many existing spaces continue to use Backlog notation.
+
 ## Installation
 
 Requires Node.js 18 or later.

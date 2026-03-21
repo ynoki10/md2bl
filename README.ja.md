@@ -8,6 +8,14 @@ Markdown を [Backlog 記法](https://support-ja.backlog.com/hc/ja/articles/3600
 
 Markdown を Backlog記法を利用しているBacklogプロジェクト の課題・Wiki・PR にそのまま貼れる形式へ変換します。stdin/stdout のパイプに対応しているため、Shell スクリプトや各種ツールに組み込みやすいのが特徴です。
 
+## なぜ md2bl？
+
+ChatGPT や Gemini などの AI ツールの出力は Markdown ですが、Backlog 記法を使っているスペースにそのまま貼ると書式が崩れます。
+
+AI に Backlog 記法を教えることもできますが、トークンの無駄遣いになり出力の汎用性も下がります。AI には Markdown で出力させ、あとから機械的に変換するほうが合理的です。
+
+> **Note:** 2025年5月より、Backlog は新規スペースでは Markdown（GFM）がデフォルトになりましたが、既存スペースの多くは引き続き Backlog 記法を使用しています。
+
 ## インストール
 
 Node.js 18 以上が必要です。
