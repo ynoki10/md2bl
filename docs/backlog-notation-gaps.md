@@ -33,7 +33,7 @@ Backlog公式ヘルプ（[Backlog記法](https://support-ja.backlog.com/hc/ja/ar
 
 | Markdown 入力 | 説明 | md2bl での扱い |
 |---|---|---|
-| `{quote}...{/quote}` | ブロック引用 | 対応予定: [#42](https://github.com/ynoki10/md2bl/issues/42) で `quoteStyle` オプションを導入予定。デフォルト `auto`（1行 → `>`、複数行 → `{quote}`） |
+| `> blockquote` | ブロック引用 | 対応予定: [#42](https://github.com/ynoki10/md2bl/issues/42) で `quoteStyle` オプションを導入予定。デフォルト `auto`（1行 → `>`、複数行 → `{quote}`） |
 | 定義リスト (`term\n: definition`) | PHP Markdown Extra 拡張 | 対応予定: [#47](https://github.com/ynoki10/md2bl/issues/47) で妥当なBacklog記法へのフォールバック変換を実装予定 |
 | `<details>` / `<summary>` | 折りたたみ表示 | 対応予定: [#48](https://github.com/ynoki10/md2bl/issues/48) で妥当なBacklog記法へのフォールバック変換を実装予定 |
 
