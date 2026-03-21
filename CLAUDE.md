@@ -37,3 +37,5 @@ cat input.md | node dist/index.js
 - PR 作成手順 → `.claude/skills/pr-workflow.md`
 - 変換ルール早見表 → `docs/conversion-rules.md`
 - リリース手順 → `docs/release-process.md`
+- Backlog記法との差分・対象外項目 → `docs/backlog-notation-gaps.md`
+- 類似ツール比較 → `docs/alternatives.md`
