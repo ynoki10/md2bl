@@ -4,9 +4,9 @@
 
 [![npm version](https://badge.fury.io/js/md2bl.svg)](https://www.npmjs.com/package/md2bl)
 
-Markdown を [Backlog 記法](https://support-ja.backlog.com/hc/ja/articles/360035641594-%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E6%95%B4%E5%BD%A2%E3%81%AE%E3%83%AB%E3%83%BC%E3%83%AB-Backlog%E8%A8%98%E6%B3%95) に変換する CLI ツール。
+Markdown を [Backlog 記法](https://support-ja.backlog.com/hc/ja/articles/360035641594-%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E6%95%B4%E5%BD%A2%E3%81%AE%E3%83%AB%E3%83%BC%E3%83%AB-Backlog%E8%A8%98%E6%B3%95) に変換する CLI ツール & ライブラリ。
 
-Markdown を Backlog記法を利用しているBacklogプロジェクト の課題・Wiki・PR にそのまま貼れる形式へ変換します。stdin/stdout のパイプに対応しているため、Shell スクリプトや各種ツールに組み込みやすいのが特徴です。
+Markdown を Backlog記法を利用しているBacklogプロジェクト の課題・Wiki・PR にそのまま貼れる形式へ変換します。stdin/stdout のパイプに対応しているため、Shell スクリプトや各種ツールに組み込みやすいのが特徴です。Node.js/TypeScript プロジェクトからライブラリとしても利用できます。
 
 ## インストール
 
@@ -17,6 +17,22 @@ npm install -g md2bl
 ```
 
 ## 使い方
+
+### ライブラリとして使う
+
+Node.js/TypeScript プロジェクトからプログラムで利用できます:
+
+```sh
+npm install md2bl
+```
+
+```ts
+import { convert } from 'md2bl';
+
+const backlog = convert('# Hello **world**');
+console.log(backlog);
+// => * Hello ''world''
+```
 
 ### ファイルを変換する
 

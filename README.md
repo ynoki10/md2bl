@@ -4,9 +4,9 @@ English | [日本語](./README.ja.md)
 
 [![npm version](https://badge.fury.io/js/md2bl.svg)](https://www.npmjs.com/package/md2bl)
 
-A CLI tool to convert Markdown to [Backlog notation](https://support.nulab.com/hc/en-us/articles/8775439725721-Backlog-text-formatting-rules).
+A CLI tool and library to convert Markdown to [Backlog notation](https://support.nulab.com/hc/en-us/articles/8775439725721-Backlog-text-formatting-rules).
 
-Converts Markdown into a format that can be pasted directly into issues, Wikis, and PRs in Backlog projects that use Backlog notation. Supports stdin/stdout piping, making it easy to integrate into shell scripts and other tools.
+Converts Markdown into a format that can be pasted directly into issues, Wikis, and PRs in Backlog projects that use Backlog notation. Supports stdin/stdout piping, making it easy to integrate into shell scripts and other tools. Also usable as a library in Node.js/TypeScript projects.
 
 ## Installation
 
@@ -17,6 +17,22 @@ npm install -g md2bl
 ```
 
 ## Usage
+
+### Programmatic Usage
+
+You can also use md2bl as a library in your Node.js/TypeScript project:
+
+```sh
+npm install md2bl
+```
+
+```ts
+import { convert } from 'md2bl';
+
+const backlog = convert('# Hello **world**');
+console.log(backlog);
+// => * Hello ''world''
+```
 
 ### Convert a file
 

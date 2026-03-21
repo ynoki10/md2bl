@@ -80,8 +80,8 @@ export function compileNode(node: Node, ctx: CompileContext = makeContext()): st
       // フロントマターはそのまま出力
       return `---\n${(node as unknown as { value: string }).value}\n---`;
     default:
-      process.stderr.write(
-        `[md2bl] WARNING: unsupported node type "${node.type}" — skipped\n`
+      console.warn(
+        `[md2bl] WARNING: unsupported node type "${node.type}" — skipped`
       );
       return "";
   }
@@ -205,15 +205,15 @@ function compileListItem(node: ListItem, ctx: CompileContext): string {
 }
 
 function compileImage(node: Image): string {
-  process.stderr.write(
-    `[md2bl] WARNING: image "${node.url}" is not supported in Backlog notation — skipped\n`
+  console.warn(
+    `[md2bl] WARNING: image "${node.url}" is not supported in Backlog notation — skipped`
   );
   return "";
 }
 
 function compileHtml(node: Html): string {
-  process.stderr.write(
-    `[md2bl] WARNING: raw HTML is not supported in Backlog notation — skipped\n`
+  console.warn(
+    `[md2bl] WARNING: raw HTML is not supported in Backlog notation — skipped`
   );
   return "";
 }
