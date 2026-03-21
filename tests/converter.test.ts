@@ -65,6 +65,22 @@ describe("リスト", () => {
     expect(convert("1. item1\n   1. nested")).toBe("+ item1\n++ nested"));
 });
 
+describe("チェックリスト", () => {
+  it("未チェック", () =>
+    expect(convert("- [ ] todo")).toBe("- [ ] todo"));
+  it("チェック済み", () =>
+    expect(convert("- [x] done")).toBe("- [x] done"));
+  it("チェックリストと通常リストの混在", () =>
+    expect(convert("- [ ] todo\n- normal")).toBe("- [ ] todo\n- normal"));
+  it("ネストしたチェックリスト", () =>
+    expect(convert("- [ ] parent\n  - [x] child")).toBe("- [ ] parent\n-- [x] child"));
+  it("番号付きチェックリスト", () =>
+    expect(convert("1. [ ] ordered task")).toBe("+ [ ] ordered task"));
+  it("loose list item でも checkbox は最初の行のみ", () =>
+    expect(convert("- [ ] item1\n\n  continued")).toBe(
+      "- [ ] item1\n- continued"));
+});
+
 describe("テーブル", () => {
   it("シンプルなテーブル", () => {
     const md = `| Name | Age |\n| --- | --- |\n| Alice | 30 |`;

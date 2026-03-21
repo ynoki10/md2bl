@@ -116,6 +116,8 @@ Second paragraph (blank lines between paragraphs are preserved).
 | `- nested` (2 levels) | `-- nested` |
 | `1. item` | `+ item` |
 | `1. nested` (2 levels) | `++ nested` |
+| `- [ ] text` / `- [x] text` | `- [ ] text` / `- [x] text` |
+| `1. [ ] text` / `1. [x] text` | `+ [ ] text` / `+ [x] text` |
 | Table | Header row ends with `h` suffix |
 | YAML front matter | Output as-is |
 
