@@ -133,8 +133,12 @@ function compileDelete(node: Delete, ctx: CompileContext): string {
   return `%%${compileChildren(node.children, ctx)}%%`;
 }
 
+const BACKLOG_CODE_LANGUAGES = new Set(["java", "cs"]);
+
 function compileCode(node: Code): string {
-  return `{code}\n${node.value}\n{/code}`;
+  const normalized = node.lang?.toLowerCase() ?? "";
+  const lang = BACKLOG_CODE_LANGUAGES.has(normalized) ? `:${normalized}` : "";
+  return `{code${lang}}\n${node.value}\n{/code}`;
 }
 
 function compileLink(node: Link, ctx: CompileContext): string {

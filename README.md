@@ -107,7 +107,7 @@ Second paragraph (blank lines between paragraphs are preserved).
 | `*italic*` | `'''italic'''` |
 | `~~strikethrough~~` | `%%strikethrough%%` |
 | `` `inline code` `` | `{code}inline code{/code}` |
-| ` ```lang` ... ` ``` ` | `{code}` ... `{/code}` |
+| ` ```lang` ... ` ``` ` | `{code}` ... `{/code}` (`java`/`cs` → `{code:lang}`) |
 | `[text](URL)` (text≠URL) | `[[text:URL]]` |
 | `[URL](URL)` / bare URL | URL output as-is |
 | `> blockquote` | `> blockquote` |
@@ -120,6 +120,8 @@ Second paragraph (blank lines between paragraphs are preserved).
 | YAML front matter | Output as-is |
 
 > **Note:** Blank lines between blocks are removed by default. Only blank lines between **paragraph → paragraph** and **list → list** are preserved.
+
+> **Note:** Backlog notation only supports syntax highlighting for `java` and `cs` (C#). Other languages fall back to `{code}` without highlighting.
 
 ### Unsupported Elements
 
