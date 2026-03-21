@@ -219,10 +219,7 @@ function compileListItem(node: ListItem, ctx: CompileContext): string {
 }
 
 function compileImage(node: Image): string {
-  console.warn(
-    `[md2bl] WARNING: image "${node.url}" is not supported in Backlog notation — skipped`
-  );
-  return "";
+  return `#image(${node.url})`;
 }
 
 function compileHtml(node: Html): string {

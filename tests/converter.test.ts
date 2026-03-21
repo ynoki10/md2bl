@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { convert } from "../src/converter.js";
 
 describe("見出し", () => {
@@ -131,4 +131,34 @@ describe("空行ルール", () => {
     expect(convert("```\ncode\n```\n\npara")).toBe("{code}\ncode\n{/code}\npara"));
   it("リスト→リスト: 空行維持", () =>
     expect(convert("- item1\n\n1. item2")).toBe("- item1\n\n+ item2"));
+});
+
+describe("画像", () => {
+  it("画像をBacklog記法に変換", () =>
+    expect(convert("![alt text](https://example.com/image.png)")).toBe(
+      "#image(https://example.com/image.png)"
+    ));
+  it("altなし画像", () =>
+    expect(convert("![](https://example.com/image.png)")).toBe(
+      "#image(https://example.com/image.png)"
+    ));
+  it("インライン画像", () =>
+    expect(convert("text ![img](https://example.com/a.png) more")).toBe(
+      "text #image(https://example.com/a.png) more"
+    ));
+});
+
+describe("未対応要素の警告", () => {
+  it("画像変換時にwarningを出力しない", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    convert("![alt](https://example.com/img.png)");
+    expect(spy).not.toHaveBeenCalled();
+    spy.mockRestore();
+  });
+  it("HTML変換時にwarningを出力する", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    convert("<div>html</div>");
+    expect(spy).toHaveBeenCalled();
+    spy.mockRestore();
+  });
 });
