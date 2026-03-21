@@ -21,9 +21,21 @@ describe("コードブロック", () => {
     expect(convert("`code`")).toBe("{code}code{/code}"));
   it("コードブロック（言語なし）", () =>
     expect(convert("```\ncode here\n```")).toBe("{code}\ncode here\n{/code}"));
-  it("コードブロック（言語あり）", () =>
+  it("コードブロック（java）", () =>
+    expect(convert("```java\npublic class Main {}\n```")).toBe(
+      "{code:java}\npublic class Main {}\n{/code}"
+    ));
+  it("コードブロック（cs）", () =>
+    expect(convert("```cs\nvar x = 1;\n```")).toBe(
+      "{code:cs}\nvar x = 1;\n{/code}"
+    ));
+  it("コードブロック（サポート外言語）", () =>
     expect(convert("```typescript\nconst x = 1;\n```")).toBe(
       "{code}\nconst x = 1;\n{/code}"
+    ));
+  it("コードブロック（大文字言語名も正規化）", () =>
+    expect(convert("```Java\ncode\n```")).toBe(
+      "{code:java}\ncode\n{/code}"
     ));
 });
 
