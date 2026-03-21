@@ -27,3 +27,12 @@ refactor: リファクタリング
 ```
 
 例: `feat: add support for definition lists`
+
+## ブランチの削除
+
+- GitHub の「Automatically delete head branches」が有効化済み。PR マージ時にリモートブランチは自動削除される
+- PR マージ後、ローカルブランチも削除する:
+  ```
+  git branch -d <branch-name>
+  ```
+- worktree 内で作業していた場合は worktree も先に削除する（`worktree-lifecycle.md` 参照）
