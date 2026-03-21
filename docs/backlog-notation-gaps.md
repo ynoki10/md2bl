@@ -27,15 +27,15 @@ Backlog公式ヘルプ（[Backlog記法](https://support-ja.backlog.com/hc/ja/ar
 
 | Markdown 入力 | 説明 | md2bl での扱い |
 |---|---|---|
-| 定義リスト (`term\n: definition`) | PHP Markdown Extra 拡張 | GFM 入力に現れない。Backlog記法に対応構文なし |
-| `<details>` / `<summary>` | 折りたたみ表示 | Backlog Markdown モードのみの機能。Backlog記法に対応構文なし。`html` ノードとして警告+スキップ |
-| テーブルのセル結合 (`\|\|`) | Backlog 独自 Markdown 拡張 | 標準 GFM 入力に現れない |
+| テーブルのセル結合 (`\|\|`) | Backlog 独自 Markdown 拡張 | 標準 GFM 入力に現れない。GFM パーサは `\|\|` を空セルとして解釈し、空セルがそのまま出力される。対応不要 |
 
 ### 対応予定のもの
 
-| Backlog記法 | 説明 | md2bl での扱い |
+| Markdown 入力 | 説明 | md2bl での扱い |
 |---|---|---|
 | `{quote}...{/quote}` | ブロック引用 | 対応予定: [#42](https://github.com/ynoki10/md2bl/issues/42) で `quoteStyle` オプションを導入予定。デフォルト `auto`（1行 → `>`、複数行 → `{quote}`） |
+| 定義リスト (`term\n: definition`) | PHP Markdown Extra 拡張 | 対応予定: [#47](https://github.com/ynoki10/md2bl/issues/47) で妥当なBacklog記法へのフォールバック変換を実装予定 |
+| `<details>` / `<summary>` | 折りたたみ表示 | 対応予定: [#48](https://github.com/ynoki10/md2bl/issues/48) で妥当なBacklog記法へのフォールバック変換を実装予定 |
 
 ## コード言語サポートについて
 
