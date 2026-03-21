@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.0](https://github.com/ynoki10/md2bl/compare/md2bl-v0.1.3...md2bl-v0.2.0) (2026-03-21)
+
+
+### Features
+
+* add programmatic API support for library usage ([e5b8bea](https://github.com/ynoki10/md2bl/commit/e5b8beadb81bf72aabae3f45d6364167e68a7ced))
+* add programmatic API support for library usage ([255be1a](https://github.com/ynoki10/md2bl/commit/255be1af17423d6982c3167df6b87048224671d6))
+
 ## [0.1.3](https://github.com/ynoki10/md2bl/compare/md2bl-v0.1.2...md2bl-v0.1.3) (2026-03-14)
 
 
