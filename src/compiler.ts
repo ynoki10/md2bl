@@ -195,14 +195,24 @@ function compileListItem(node: ListItem, ctx: CompileContext): string {
   const ordered = ctx.listOrdered[ctx.listOrdered.length - 1] ?? false;
   const bullet = ordered ? "+".repeat(depth) : "-".repeat(depth);
 
+  const checkbox =
+    node.checked === true ? "[x] "
+    : node.checked === false ? "[ ] "
+    : "";
+
+  let checkboxUsed = false;
   const lines: string[] = [];
   for (const child of node.children) {
     if (child.type === "paragraph") {
-      lines.push(`${bullet} ${compileChildren((child as Paragraph).children, ctx)}`);
+      const prefix = !checkboxUsed ? checkbox : "";
+      checkboxUsed = true;
+      lines.push(`${bullet} ${prefix}${compileChildren((child as Paragraph).children, ctx)}`);
     } else if (child.type === "list") {
       lines.push(compileList(child as List, ctx));
     } else {
-      lines.push(`${bullet} ${compileNode(child, ctx)}`);
+      const prefix = !checkboxUsed ? checkbox : "";
+      checkboxUsed = true;
+      lines.push(`${bullet} ${prefix}${compileNode(child, ctx)}`);
     }
   }
   return lines.join("\n");
