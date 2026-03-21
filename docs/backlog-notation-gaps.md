@@ -19,9 +19,8 @@ Backlog公式ヘルプ（[Backlog記法](https://support-ja.backlog.com/hc/ja/ar
 |---|---|---|
 | `BLG-104` / `[[BLG-87]]` | 課題へのリンク | テキストノードとしてそのまま出力される。Backlog UI が自動リンク化する |
 | `[[Home]]` | Wiki ページリンク | 同上 |
-| `#rev(11)` / `#rev(app:abcdefg)` | SVN/Git リビジョンリンク | 入力に含まれていればそのまま出力される |
-| `#attach(file.zip:11)` | Wiki 添付ファイルリンク | 入力に含まれていればそのまま出力される |
-| `#contents` / `[toc]` | 目次自動生成 | 対応予定: [#41](https://github.com/ynoki10/md2bl/issues/41) で `[toc]` → `#contents` 変換を実装予定 |
+| `#rev(11)` / `#rev(app:abcdefg)` | SVN/Git リビジョンリンク | 同上 |
+| `#attach(file.zip:11)` | Wiki 添付ファイルリンク | 同上 |
 
 ### Backlog記法に対応する出力構文がないもの
 
@@ -29,10 +28,11 @@ Backlog公式ヘルプ（[Backlog記法](https://support-ja.backlog.com/hc/ja/ar
 |---|---|---|
 | テーブルのセル結合 (`\|\|`) | Backlog 独自 Markdown 拡張 | 標準 GFM 入力に現れない。GFM パーサは `\|\|` を空セルとして解釈し、空セルがそのまま出力される。対応不要 |
 
-### 対応予定のもの
+## 対応予定のもの
 
-| Markdown 入力 | 説明 | md2bl での扱い |
+| 記法 | 説明 | md2bl での扱い |
 |---|---|---|
+| `#contents` / `[toc]` | 目次自動生成 | 対応予定: [#41](https://github.com/ynoki10/md2bl/issues/41) で `[toc]` → `#contents` 変換を実装予定 |
 | `> blockquote` | ブロック引用 | 対応予定: [#42](https://github.com/ynoki10/md2bl/issues/42) で `quoteStyle` オプションを導入予定。デフォルト `auto`（1行 → `>`、複数行 → `{quote}`） |
 | 定義リスト (`term\n: definition`) | PHP Markdown Extra 拡張 | 対応予定: [#47](https://github.com/ynoki10/md2bl/issues/47) で妥当なBacklog記法へのフォールバック変換を実装予定 |
 | `<details>` / `<summary>` | 折りたたみ表示 | 対応予定: [#48](https://github.com/ynoki10/md2bl/issues/48) で妥当なBacklog記法へのフォールバック変換を実装予定 |
