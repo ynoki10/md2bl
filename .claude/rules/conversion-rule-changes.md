@@ -9,6 +9,5 @@ globs:
 
 - `src/compiler.ts` — 実装
 - `tests/converter.test.ts` — テスト
-- `docs/conversion-rules.md` — 変換ルール早見表
 - `README.md` — Conversion Rules 表 + 変換例
 - `README.ja.md` — 変換ルール表 + 変換例
