@@ -7,6 +7,8 @@ description: ブランチ戦略と Conventional Commits 規約
 新しい作業は必ず feature ブランチで行い、PR 経由で main にマージする。
 （main への直 push はブランチ保護により禁止）
 
+Claude が新しい作業を始める場合は worktree を使用すること（詳細は `worktree-lifecycle.md` 参照）。
+
 ```
 main          ← 常にリリース可能な状態
 feat/xxx      ← 機能追加
