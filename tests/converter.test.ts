@@ -88,9 +88,55 @@ describe("チェックリスト", () => {
     expect(convert("- [ ] parent\n  - [x] child")).toBe("- [ ] parent\n-- [x] child"));
   it("番号付きチェックリスト", () =>
     expect(convert("1. [ ] ordered task")).toBe("+ [ ] ordered task"));
-  it("loose list item でも checkbox は最初の行のみ", () =>
+  it("loose list item では段落を &br; で結合", () =>
     expect(convert("- [ ] item1\n\n  continued")).toBe(
-      "- [ ] item1\n- continued"));
+      "- [ ] item1&br;continued"));
+});
+
+describe("ルーズリスト（複数段落）", () => {
+  it("箇条書きの複数段落を &br; で結合", () =>
+    expect(convert("- item1\n\n  continued")).toBe("- item1&br;continued"));
+  it("番号付きリストの複数段落を &br; で結合", () =>
+    expect(convert("1. item1\n\n   continued")).toBe("+ item1&br;continued"));
+  it("チェックリストの複数段落を &br; で結合", () =>
+    expect(convert("- [x] item1\n\n  continued")).toBe(
+      "- [x] item1&br;continued"));
+  it("3段落以上も &br; で結合", () =>
+    expect(convert("- para1\n\n  para2\n\n  para3")).toBe(
+      "- para1&br;para2&br;para3"));
+  it("ルーズ項目と通常項目の混在", () =>
+    expect(convert("- item1\n\n  continued\n\n- item2")).toBe(
+      "- item1&br;continued\n- item2"));
+});
+
+describe("リスト項目内のブロック要素", () => {
+  it("複数行コードブロックはバレットなしで出力", () =>
+    expect(
+      convert("- item\n\n  ```java\n  line1\n  line2\n  ```")
+    ).toBe("- item\n{code:java}\nline1\nline2\n{/code}"));
+  it("1行コードブロックは {code} でインライン化", () =>
+    expect(
+      convert("- item\n\n  ```java\n  one-liner\n  ```")
+    ).toBe("- item&br;{code}one-liner{/code}"));
+  it("引用はバレットなしで出力", () =>
+    expect(convert("- item\n\n  > quote text")).toBe(
+      "- item\n> quote text"));
+  it("水平線はバレットなしで出力", () =>
+    expect(convert("- item\n\n  ---")).toBe("- item\n----"));
+  it("テーブルはバレットなしで出力", () =>
+    expect(
+      convert("- item\n\n  | A | B |\n  | - | - |\n  | 1 | 2 |")
+    ).toBe("- item\n| A | B |h\n| 1 | 2 |"));
+  it("段落 + コードブロック + 段落（後続段落はバレットなし）", () =>
+    expect(
+      convert("- text\n\n  ```\n  line1\n  line2\n  ```\n\n  after")
+    ).toBe("- text\n{code}\nline1\nline2\n{/code}\nafter"));
+  it("チェックリスト + コードブロック", () =>
+    expect(
+      convert("- [ ] item\n\n  ```\n  code\n  code\n  ```")
+    ).toBe("- [ ] item\n{code}\ncode\ncode\n{/code}"));
+  it("番号付きリスト + 引用", () =>
+    expect(convert("1. item\n\n   > quote")).toBe("+ item\n> quote"));
 });
 
 describe("テーブル", () => {

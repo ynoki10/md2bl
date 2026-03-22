@@ -71,6 +71,16 @@ Second paragraph (blank lines between paragraphs are preserved).
 1. Ordered item 1
 2. Ordered item 2
 
+- First paragraph
+
+  Second paragraph (loose list item)
+
+- Item with code:
+
+  ```java
+  System.out.println("hello");
+  ```
+
 [Link](https://example.com)
 
 | Col A | Col B |
@@ -91,6 +101,11 @@ Second paragraph (blank lines between paragraphs are preserved).
 
 + Ordered item 1
 + Ordered item 2
+- First paragraph&br;Second paragraph (loose list item)
+- Item with code:
+{code:java}
+System.out.println("hello");
+{/code}
 [[Link:https://example.com]]
 | Col A | Col B |h
 | Val 1 | Val 2 |
@@ -118,6 +133,10 @@ Second paragraph (blank lines between paragraphs are preserved).
 | `1. nested` (2 levels) | `++ nested` |
 | `- [ ] text` / `- [x] text` | `- [ ] text` / `- [x] text` |
 | `1. [ ] text` / `1. [x] text` | `+ [ ] text` / `+ [x] text` |
+| Loose list item (multiple paragraphs) | Joined with `&br;` |
+| Code block in list item (single line) | `{code}...{/code}` inline with `&br;` |
+| Code block in list item (multi-line) | `{code}` block without bullet |
+| Blockquote / HR / table in list item | Output without bullet |
 | `![alt](url)` | `#image(url)` |
 | Table | Header row ends with `h` suffix |
 | YAML front matter | Output as-is |

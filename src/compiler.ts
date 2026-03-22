@@ -200,21 +200,43 @@ function compileListItem(node: ListItem, ctx: CompileContext): string {
     : node.checked === false ? "[ ] "
     : "";
 
-  let checkboxUsed = false;
+  let bulletUsed = false;
   const lines: string[] = [];
+  let paragraphTexts: string[] = [];
+
+  const flushParagraphs = () => {
+    if (paragraphTexts.length === 0) return;
+    const joined = paragraphTexts.join("&br;");
+    if (!bulletUsed) {
+      lines.push(`${bullet} ${checkbox}${joined}`);
+      bulletUsed = true;
+    } else {
+      lines.push(joined);
+    }
+    paragraphTexts = [];
+  };
+
   for (const child of node.children) {
     if (child.type === "paragraph") {
-      const prefix = !checkboxUsed ? checkbox : "";
-      checkboxUsed = true;
-      lines.push(`${bullet} ${prefix}${compileChildren((child as Paragraph).children, ctx)}`);
+      paragraphTexts.push(compileChildren((child as Paragraph).children, ctx));
     } else if (child.type === "list") {
+      flushParagraphs();
       lines.push(compileList(child as List, ctx));
+    } else if (child.type === "code") {
+      const codeNode = child as Code;
+      if (codeNode.value.includes("\n")) {
+        flushParagraphs();
+        lines.push(compileNode(child, ctx));
+      } else {
+        paragraphTexts.push(`{code}${codeNode.value}{/code}`);
+      }
     } else {
-      const prefix = !checkboxUsed ? checkbox : "";
-      checkboxUsed = true;
-      lines.push(`${bullet} ${prefix}${compileNode(child, ctx)}`);
+      flushParagraphs();
+      lines.push(compileNode(child, ctx));
     }
   }
+
+  flushParagraphs();
   return lines.join("\n");
 }
 
