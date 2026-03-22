@@ -37,6 +37,20 @@ Backlog公式ヘルプ（[Backlog記法](https://support-ja.backlog.com/hc/ja/ar
 | 定義リスト (`term\n: definition`) | PHP Markdown Extra 拡張 | 対応予定: [#47](https://github.com/ynoki10/md2bl/issues/47) で妥当なBacklog記法へのフォールバック変換を実装予定 |
 | `<details>` / `<summary>` | 折りたたみ表示 | 対応予定: [#48](https://github.com/ynoki10/md2bl/issues/48) で妥当なBacklog記法へのフォールバック変換を実装予定 |
 
+## 既知の制限
+
+### テーブルセル内のパイプ文字
+
+テーブルセル内のコンテンツに `|`（パイプ）が含まれる場合、Backlog のテーブルパーサーがカラム区切りと誤認し、表示が崩れる。
+
+```markdown
+| コマンド | 説明 |
+| --- | --- |
+| `cat input.md \| md2bl` | stdinから変換 |
+```
+
+Backlog記法にはテーブルセル内のパイプをエスケープする構文がないため、md2bl 側では回避できない。
+
 ## コード言語サポートについて
 
 Backlog記法の `{code:}` マクロがサポートする言語は **`java` と `cs`（C#）の2つのみ**。
