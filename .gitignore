@@ -3,3 +3,4 @@ dist/
 *.js.map
 .claude/settings.local.json
 .claude.local.md
+.worktrees/
