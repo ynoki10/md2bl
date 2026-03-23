@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.0](https://github.com/ynoki10/md2bl/compare/md2bl-v0.2.0...md2bl-v0.3.0) (2026-03-23)
+
+
+### Features
+
+* convert [toc] to #contents ([#41](https://github.com/ynoki10/md2bl/issues/41)) ([#68](https://github.com/ynoki10/md2bl/issues/68)) ([90836dc](https://github.com/ynoki10/md2bl/commit/90836dc566b415515f3561be3ce7276c524a70c8))
+* convert images to #image(URL) ([#56](https://github.com/ynoki10/md2bl/issues/56)) ([c01984b](https://github.com/ynoki10/md2bl/commit/c01984bb7705de12fb95bf77f6ab16f944c45f5c)), closes [#40](https://github.com/ynoki10/md2bl/issues/40)
+* handle loose list items and block elements in list items ([#65](https://github.com/ynoki10/md2bl/issues/65)) ([2898cbd](https://github.com/ynoki10/md2bl/commit/2898cbd01fb4f346756bcf5e1493ee4092c54e64))
+* output {code:java}/{code:cs} for supported languages ([#53](https://github.com/ynoki10/md2bl/issues/53)) ([47a286d](https://github.com/ynoki10/md2bl/commit/47a286d58cc20a7afe65fcfa8de846a1bbfd6afe)), closes [#38](https://github.com/ynoki10/md2bl/issues/38)
+* support checklist items (- [ ] / - [x]) ([#55](https://github.com/ynoki10/md2bl/issues/55)) ([8bcb1f1](https://github.com/ynoki10/md2bl/commit/8bcb1f1acd1554f2029b075a487f7a8e010d53bf)), closes [#39](https://github.com/ynoki10/md2bl/issues/39)
+
 ## [0.2.0](https://github.com/ynoki10/md2bl/compare/md2bl-v0.1.3...md2bl-v0.2.0) (2026-03-21)
 
 
