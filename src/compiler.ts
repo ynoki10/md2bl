@@ -118,6 +118,13 @@ function compileHeading(node: Heading, ctx: CompileContext): string {
 }
 
 function compileParagraph(node: Paragraph, ctx: CompileContext): string {
+  if (
+    node.children.length === 1 &&
+    node.children[0].type === "text" &&
+    (node.children[0] as Text).value === "[toc]"
+  ) {
+    return "#contents";
+  }
   return compileChildren(node.children, ctx);
 }
 

@@ -58,6 +58,8 @@ md2bl input.md > output.txt
 **入力（Markdown）:**
 
 ````md
+[toc]
+
 # 見出し1
 
 最初の段落。**太字**と*斜体*も使えます。
@@ -91,6 +93,7 @@ md2bl input.md > output.txt
 **出力（Backlog 記法）:**
 
 ```
+#contents
 * 見出し1
 最初の段落。''太字''と'''斜体'''も使えます。
 
@@ -138,6 +141,7 @@ System.out.println("hello");
 | リスト項目内のコードブロック（複数行） | バレットなしで `{code}` ブロック出力 |
 | リスト項目内の引用・水平線・テーブル | バレットなしで出力 |
 | `![alt](url)` | `#image(url)` |
+| `[toc]` | `#contents` |
 | テーブル | ヘッダー行末に `h` を付与 |
 | YAML フロントマター | そのまま出力 |
 
