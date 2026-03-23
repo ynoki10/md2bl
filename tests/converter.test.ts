@@ -194,6 +194,21 @@ describe("画像", () => {
     ));
 });
 
+describe("目次 [toc]", () => {
+  it("[toc] を #contents に変換", () =>
+    expect(convert("[toc]")).toBe("#contents"));
+  it("[toc] と見出しの組み合わせ", () =>
+    expect(convert("[toc]\n\n# Heading 1\n## Heading 1-1")).toBe(
+      "#contents\n* Heading 1\n** Heading 1-1"
+    ));
+  it("段落中の [toc] は変換しない", () =>
+    expect(convert("See [toc] for details")).toBe("See [toc] for details"));
+  it("[TOC] は変換しない（小文字のみ対象）", () =>
+    expect(convert("[TOC]")).toBe("[TOC]"));
+  it("[Toc] は変換しない（小文字のみ対象）", () =>
+    expect(convert("[Toc]")).toBe("[Toc]"));
+});
+
 describe("未対応要素の警告", () => {
   it("画像変換時にwarningを出力しない", () => {
     const spy = vi.spyOn(console, "warn").mockImplementation(() => {});

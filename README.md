@@ -58,6 +58,8 @@ md2bl input.md > output.txt
 **Input (Markdown):**
 
 ````md
+[toc]
+
 # Heading 1
 
 First paragraph. You can use **bold** and *italic* text.
@@ -91,6 +93,7 @@ Second paragraph (blank lines between paragraphs are preserved).
 **Output (Backlog notation):**
 
 ```
+#contents
 * Heading 1
 First paragraph. You can use ''bold'' and '''italic''' text.
 
@@ -138,6 +141,7 @@ System.out.println("hello");
 | Code block in list item (multi-line) | `{code}` block without bullet |
 | Blockquote / HR / table in list item | Output without bullet |
 | `![alt](url)` | `#image(url)` |
+| `[toc]` | `#contents` |
 | Table | Header row ends with `h` suffix |
 | YAML front matter | Output as-is |
 
