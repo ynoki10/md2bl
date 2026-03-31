@@ -279,3 +279,20 @@ describe("未対応要素の警告", () => {
     spy.mockRestore();
   });
 });
+
+describe("エッジケース", () => {
+  it("空文字列", () =>
+    expect(convert("")).toBe(""));
+  it("改行のみ", () =>
+    expect(convert("\n\n")).toBe(""));
+  it("スペースのみ", () =>
+    expect(convert("   ")).toBe(""));
+  it("ハードブレーク（末尾2スペース）", () =>
+    expect(convert("line1  \nline2")).toBe("line1&br;line2"));
+  it("ハードブレーク（バックスラッシュ）", () =>
+    expect(convert("line1\\\nline2")).toBe("line1&br;line2"));
+  it("ソフトブレーク（段落内改行）", () =>
+    expect(convert("line1\nline2")).toBe("line1\nline2"));
+  it("自動リンク（angle bracket）", () =>
+    expect(convert("<https://example.com>")).toBe("https://example.com"));
+});
