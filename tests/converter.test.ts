@@ -177,6 +177,22 @@ describe("空行ルール", () => {
     expect(convert("```\ncode\n```\n\npara")).toBe("{code}\ncode\n{/code}\npara"));
   it("リスト→リスト: 空行維持", () =>
     expect(convert("- item1\n\n1. item2")).toBe("- item1\n\n+ item2"));
+  it("見出し→見出し: 空行削除", () =>
+    expect(convert("# H1\n\n## H2")).toBe("* H1\n** H2"));
+  it("見出し→リスト: 空行削除", () =>
+    expect(convert("# H1\n\n- item")).toBe("* H1\n- item"));
+  it("見出し→コードブロック: 空行削除", () =>
+    expect(convert("# H1\n\n```\ncode\n```")).toBe("* H1\n{code}\ncode\n{/code}"));
+  it("引用→段落: 空行削除", () =>
+    expect(convert("> quote\n\npara")).toBe("> quote\npara"));
+  it("テーブル→段落: 空行削除", () =>
+    expect(convert("| A |\n| - |\n| 1 |\n\npara")).toBe("| A |h\n| 1 |\npara"));
+  it("水平線→段落: 空行削除", () =>
+    expect(convert("---\n\npara")).toBe("----\npara"));
+  it("水平線→見出し: 空行削除", () =>
+    expect(convert("---\n\n# H1")).toBe("----\n* H1"));
+  it("YAML(フロントマター)→見出し: 完全一致", () =>
+    expect(convert("---\ntitle: Test\n---\n\n# Hello")).toBe("---\ntitle: Test\n---\n* Hello"));
 });
 
 describe("画像", () => {
