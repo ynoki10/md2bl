@@ -65,6 +65,16 @@ describe("引用", () => {
     expect(convert("> quote text")).toBe("> quote text"));
   it("複数行引用", () =>
     expect(convert("> line1\n> line2")).toBe("> line1\n> line2"));
+  it("ネストした引用", () =>
+    expect(convert("> outer\n> > inner")).toBe("> outer\n> > inner"));
+  it("引用内の見出し", () =>
+    expect(convert("> # heading")).toBe("> * heading"));
+  it("引用内のリスト", () =>
+    expect(convert("> - item1\n> - item2")).toBe("> - item1\n> - item2"));
+  it("引用内のコードブロック", () =>
+    expect(convert("> ```\n> code\n> ```")).toBe("> {code}\n> code\n> {/code}"));
+  it("複数段落の引用", () =>
+    expect(convert("> para1\n>\n> para2")).toBe("> para1\n> para2"));
 });
 
 describe("水平線", () => {
