@@ -6,6 +6,12 @@ describe("見出し", () => {
   it("h2", () => expect(convert("## Hello")).toBe("** Hello"));
   it("h3", () => expect(convert("### Hello")).toBe("*** Hello"));
   it("h4", () => expect(convert("#### Hello")).toBe("**** Hello"));
+  it("h1内の太字", () =>
+    expect(convert("# **bold** heading")).toBe("* ''bold'' heading"));
+  it("h2内のインラインコード", () =>
+    expect(convert("## heading with `code`")).toBe("** heading with {code}code{/code}"));
+  it("h3内のリンク", () =>
+    expect(convert("### [link](http://url) in heading")).toBe("*** [[link:http://url]] in heading"));
 });
 
 describe("テキスト装飾", () => {
@@ -145,6 +151,18 @@ describe("テーブル", () => {
     const expected = `| Name | Age |h\n| Alice | 30 |`;
     expect(convert(md)).toBe(expected);
   });
+  it("セル内の装飾（太字・斜体・コード）", () =>
+    expect(convert("| **bold** | *italic* | `code` |\n| --- | --- | --- |\n| a | b | c |")).toBe(
+      "| ''bold'' | '''italic''' | {code}code{/code} |h\n| a | b | c |"
+    ));
+  it("セル内のリンク", () =>
+    expect(convert("| [text](http://url) |\n| --- |\n| data |")).toBe(
+      "| [[text:http://url]] |h\n| data |"
+    ));
+  it("複数ボディ行（hサフィックスはヘッダ行のみ）", () =>
+    expect(convert("| A | B |\n| --- | --- |\n| 1 | 2 |\n| 3 | 4 |")).toBe(
+      "| A | B |h\n| 1 | 2 |\n| 3 | 4 |"
+    ));
 });
 
 describe("フロントマター", () => {
