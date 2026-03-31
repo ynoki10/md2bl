@@ -91,6 +91,18 @@ describe("リスト", () => {
     expect(convert("- item1\n  - nested")).toBe("- item1\n-- nested"));
   it("ネストした番号付きリスト", () =>
     expect(convert("1. item1\n   1. nested")).toBe("+ item1\n++ nested"));
+  it("番号付き→箇条書き クロスネスト", () =>
+    expect(convert("1. a\n   - b\n   - c")).toBe("+ a\n-- b\n-- c"));
+  it("箇条書き→番号付き クロスネスト", () =>
+    expect(convert("- a\n  1. b\n  2. c")).toBe("- a\n++ b\n++ c"));
+  it("3階層 箇条書きネスト", () =>
+    expect(convert("- a\n  - b\n    - c")).toBe("- a\n-- b\n--- c"));
+  it("3階層 番号付き↔箇条書き 交互ネスト", () =>
+    expect(convert("1. a\n   - b\n     1. c")).toBe("+ a\n-- b\n+++ c"));
+  it("リスト項目: 段落 + ネストリスト複合", () =>
+    expect(convert("- item\n\n  paragraph\n\n  - nested")).toBe(
+      "- item&br;paragraph\n-- nested"
+    ));
 });
 
 describe("チェックリスト", () => {
