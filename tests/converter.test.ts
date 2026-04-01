@@ -12,6 +12,8 @@ describe("見出し", () => {
     expect(convert("## heading with `code`")).toBe("** heading with {code}code{/code}"));
   it("h3内のリンク", () =>
     expect(convert("### [link](http://url) in heading")).toBe("*** [[link:http://url]] in heading"));
+  it("h5", () => expect(convert("##### H5")).toBe("***** H5"));
+  it("h6", () => expect(convert("###### H6")).toBe("****** H6"));
 });
 
 describe("テキスト装飾", () => {
@@ -20,6 +22,8 @@ describe("テキスト装飾", () => {
   it("取り消し線", () => expect(convert("~~strike~~")).toBe("%%strike%%"));
   it("太字と斜体の組み合わせ", () =>
     expect(convert("**bold** and *italic*")).toBe("''bold'' and '''italic'''"));
+  it("ネストした装飾", () =>
+    expect(convert("**bold *italic* bold**")).toBe("''bold '''italic''' bold''"));
 });
 
 describe("コードブロック", () => {
@@ -43,6 +47,8 @@ describe("コードブロック", () => {
     expect(convert("```Java\ncode\n```")).toBe(
       "{code:java}\ncode\n{/code}"
     ));
+  it("空のコードブロック", () =>
+    expect(convert("```\n\n```")).toBe("{code}\n\n{/code}"));
 });
 
 describe("リンク", () => {
@@ -58,6 +64,8 @@ describe("リンク", () => {
     expect(convert("Visit https://example.com for details")).toBe(
       "Visit https://example.com for details"
     ));
+  it("装飾付きリンクテキスト", () =>
+    expect(convert("[**bold**](http://url)")).toBe("[[''bold'':http://url]]"));
 });
 
 describe("引用", () => {
@@ -185,6 +193,10 @@ describe("テーブル", () => {
     expect(convert("| A | B |\n| --- | --- |\n| 1 | 2 |\n| 3 | 4 |")).toBe(
       "| A | B |h\n| 1 | 2 |\n| 3 | 4 |"
     ));
+  it("テーブルのアライメント指定が壊れない", () =>
+    expect(convert("| L | C | R |\n| :--- | :---: | ---: |\n| 1 | 2 | 3 |")).toBe(
+      "| L | C | R |h\n| 1 | 2 | 3 |"
+    ));
 });
 
 describe("フロントマター", () => {
@@ -232,6 +244,11 @@ describe("空行ルール", () => {
     expect(convert("---\n\n# H1")).toBe("----\n* H1"));
   it("YAML(フロントマター)→見出し: 完全一致", () =>
     expect(convert("---\ntitle: Test\n---\n\n# Hello")).toBe("---\ntitle: Test\n---\n* Hello"));
+  it("HTML→段落間: HTMLスキップ後に段落同士の空行維持", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    expect(convert("para1\n\n<div>html</div>\n\npara2")).toBe("para1\n\npara2");
+    spy.mockRestore();
+  });
 });
 
 describe("画像", () => {
@@ -246,6 +263,10 @@ describe("画像", () => {
   it("インライン画像", () =>
     expect(convert("text ![img](https://example.com/a.png) more")).toBe(
       "text #image(https://example.com/a.png) more"
+    ));
+  it("リンク内の画像", () =>
+    expect(convert("[![alt](img.png)](http://url)")).toBe(
+      "[[#image(img.png):http://url]]"
     ));
 });
 
