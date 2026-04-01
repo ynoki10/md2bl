@@ -6,6 +6,14 @@ describe("見出し", () => {
   it("h2", () => expect(convert("## Hello")).toBe("** Hello"));
   it("h3", () => expect(convert("### Hello")).toBe("*** Hello"));
   it("h4", () => expect(convert("#### Hello")).toBe("**** Hello"));
+  it("h1内の太字", () =>
+    expect(convert("# **bold** heading")).toBe("* ''bold'' heading"));
+  it("h2内のインラインコード", () =>
+    expect(convert("## heading with `code`")).toBe("** heading with {code}code{/code}"));
+  it("h3内のリンク", () =>
+    expect(convert("### [link](http://url) in heading")).toBe("*** [[link:http://url]] in heading"));
+  it("h5", () => expect(convert("##### H5")).toBe("***** H5"));
+  it("h6", () => expect(convert("###### H6")).toBe("****** H6"));
 });
 
 describe("テキスト装飾", () => {
@@ -14,6 +22,8 @@ describe("テキスト装飾", () => {
   it("取り消し線", () => expect(convert("~~strike~~")).toBe("%%strike%%"));
   it("太字と斜体の組み合わせ", () =>
     expect(convert("**bold** and *italic*")).toBe("''bold'' and '''italic'''"));
+  it("ネストした装飾", () =>
+    expect(convert("**bold *italic* bold**")).toBe("''bold '''italic''' bold''"));
 });
 
 describe("コードブロック", () => {
@@ -37,6 +47,8 @@ describe("コードブロック", () => {
     expect(convert("```Java\ncode\n```")).toBe(
       "{code:java}\ncode\n{/code}"
     ));
+  it("空のコードブロック", () =>
+    expect(convert("```\n\n```")).toBe("{code}\n\n{/code}"));
 });
 
 describe("リンク", () => {
@@ -52,6 +64,8 @@ describe("リンク", () => {
     expect(convert("Visit https://example.com for details")).toBe(
       "Visit https://example.com for details"
     ));
+  it("装飾付きリンクテキスト", () =>
+    expect(convert("[**bold**](http://url)")).toBe("[[''bold'':http://url]]"));
 });
 
 describe("引用", () => {
@@ -59,6 +73,16 @@ describe("引用", () => {
     expect(convert("> quote text")).toBe("> quote text"));
   it("複数行引用", () =>
     expect(convert("> line1\n> line2")).toBe("> line1\n> line2"));
+  it("ネストした引用", () =>
+    expect(convert("> outer\n> > inner")).toBe("> outer\n> > inner"));
+  it("引用内の見出し", () =>
+    expect(convert("> # heading")).toBe("> * heading"));
+  it("引用内のリスト", () =>
+    expect(convert("> - item1\n> - item2")).toBe("> - item1\n> - item2"));
+  it("引用内のコードブロック", () =>
+    expect(convert("> ```\n> code\n> ```")).toBe("> {code}\n> code\n> {/code}"));
+  it("複数段落の引用", () =>
+    expect(convert("> para1\n>\n> para2")).toBe("> para1\n> para2"));
 });
 
 describe("水平線", () => {
@@ -75,6 +99,18 @@ describe("リスト", () => {
     expect(convert("- item1\n  - nested")).toBe("- item1\n-- nested"));
   it("ネストした番号付きリスト", () =>
     expect(convert("1. item1\n   1. nested")).toBe("+ item1\n++ nested"));
+  it("番号付き→箇条書き クロスネスト", () =>
+    expect(convert("1. a\n   - b\n   - c")).toBe("+ a\n-- b\n-- c"));
+  it("箇条書き→番号付き クロスネスト", () =>
+    expect(convert("- a\n  1. b\n  2. c")).toBe("- a\n++ b\n++ c"));
+  it("3階層 箇条書きネスト", () =>
+    expect(convert("- a\n  - b\n    - c")).toBe("- a\n-- b\n--- c"));
+  it("3階層 番号付き↔箇条書き 交互ネスト", () =>
+    expect(convert("1. a\n   - b\n     1. c")).toBe("+ a\n-- b\n+++ c"));
+  it("リスト項目: 段落 + ネストリスト複合", () =>
+    expect(convert("- item\n\n  paragraph\n\n  - nested")).toBe(
+      "- item&br;paragraph\n-- nested"
+    ));
 });
 
 describe("チェックリスト", () => {
@@ -145,16 +181,31 @@ describe("テーブル", () => {
     const expected = `| Name | Age |h\n| Alice | 30 |`;
     expect(convert(md)).toBe(expected);
   });
+  it("セル内の装飾（太字・斜体・コード）", () =>
+    expect(convert("| **bold** | *italic* | `code` |\n| --- | --- | --- |\n| a | b | c |")).toBe(
+      "| ''bold'' | '''italic''' | {code}code{/code} |h\n| a | b | c |"
+    ));
+  it("セル内のリンク", () =>
+    expect(convert("| [text](http://url) |\n| --- |\n| data |")).toBe(
+      "| [[text:http://url]] |h\n| data |"
+    ));
+  it("複数ボディ行（hサフィックスはヘッダ行のみ）", () =>
+    expect(convert("| A | B |\n| --- | --- |\n| 1 | 2 |\n| 3 | 4 |")).toBe(
+      "| A | B |h\n| 1 | 2 |\n| 3 | 4 |"
+    ));
+  it("テーブルのアライメント指定が壊れない", () =>
+    expect(convert("| L | C | R |\n| :--- | :---: | ---: |\n| 1 | 2 | 3 |")).toBe(
+      "| L | C | R |h\n| 1 | 2 | 3 |"
+    ));
 });
 
 describe("フロントマター", () => {
   it("YAMLフロントマターをそのまま出力", () => {
     const md = `---\ntitle: Test\n---\n\n# Hello`;
-    const result = convert(md);
-    expect(result).toContain("---");
-    expect(result).toContain("title: Test");
-    expect(result).toContain("* Hello");
+    expect(convert(md)).toBe("---\ntitle: Test\n---\n* Hello");
   });
+  it("フロントマターのみ（本文なし）", () =>
+    expect(convert("---\ntitle: Test\n---")).toBe("---\ntitle: Test\n---"));
 });
 
 describe("段落", () => {
@@ -177,6 +228,27 @@ describe("空行ルール", () => {
     expect(convert("```\ncode\n```\n\npara")).toBe("{code}\ncode\n{/code}\npara"));
   it("リスト→リスト: 空行維持", () =>
     expect(convert("- item1\n\n1. item2")).toBe("- item1\n\n+ item2"));
+  it("見出し→見出し: 空行削除", () =>
+    expect(convert("# H1\n\n## H2")).toBe("* H1\n** H2"));
+  it("見出し→リスト: 空行削除", () =>
+    expect(convert("# H1\n\n- item")).toBe("* H1\n- item"));
+  it("見出し→コードブロック: 空行削除", () =>
+    expect(convert("# H1\n\n```\ncode\n```")).toBe("* H1\n{code}\ncode\n{/code}"));
+  it("引用→段落: 空行削除", () =>
+    expect(convert("> quote\n\npara")).toBe("> quote\npara"));
+  it("テーブル→段落: 空行削除", () =>
+    expect(convert("| A |\n| - |\n| 1 |\n\npara")).toBe("| A |h\n| 1 |\npara"));
+  it("水平線→段落: 空行削除", () =>
+    expect(convert("---\n\npara")).toBe("----\npara"));
+  it("水平線→見出し: 空行削除", () =>
+    expect(convert("---\n\n# H1")).toBe("----\n* H1"));
+  it("YAML(フロントマター)→見出し: 完全一致", () =>
+    expect(convert("---\ntitle: Test\n---\n\n# Hello")).toBe("---\ntitle: Test\n---\n* Hello"));
+  it("HTML→段落間: HTMLスキップ後に段落同士の空行維持", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    expect(convert("para1\n\n<div>html</div>\n\npara2")).toBe("para1\n\npara2");
+    spy.mockRestore();
+  });
 });
 
 describe("画像", () => {
@@ -191,6 +263,10 @@ describe("画像", () => {
   it("インライン画像", () =>
     expect(convert("text ![img](https://example.com/a.png) more")).toBe(
       "text #image(https://example.com/a.png) more"
+    ));
+  it("リンク内の画像", () =>
+    expect(convert("[![alt](img.png)](http://url)")).toBe(
+      "[[#image(img.png):http://url]]"
     ));
 });
 
@@ -222,4 +298,35 @@ describe("未対応要素の警告", () => {
     expect(spy).toHaveBeenCalled();
     spy.mockRestore();
   });
+  it("脚注入力でconsole.warnを出力", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    convert("text[^1]\n\n[^1]: footnote");
+    expect(spy).toHaveBeenCalled();
+    const messages = spy.mock.calls.map((c) => c[0] as string);
+    expect(messages.some((m) => m.includes("footnoteReference"))).toBe(true);
+    expect(messages.some((m) => m.includes("footnoteDefinition"))).toBe(true);
+    spy.mockRestore();
+  });
+  it("脚注はスキップされ本文のみ出力", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    expect(convert("text[^1]\n\n[^1]: footnote")).toBe("text");
+    spy.mockRestore();
+  });
+});
+
+describe("エッジケース", () => {
+  it("空文字列", () =>
+    expect(convert("")).toBe(""));
+  it("改行のみ", () =>
+    expect(convert("\n\n")).toBe(""));
+  it("スペースのみ", () =>
+    expect(convert("   ")).toBe(""));
+  it("ハードブレーク（末尾2スペース）", () =>
+    expect(convert("line1  \nline2")).toBe("line1&br;line2"));
+  it("ハードブレーク（バックスラッシュ）", () =>
+    expect(convert("line1\\\nline2")).toBe("line1&br;line2"));
+  it("ソフトブレーク（段落内改行）", () =>
+    expect(convert("line1\nline2")).toBe("line1\nline2"));
+  it("自動リンク（angle bracket）", () =>
+    expect(convert("<https://example.com>")).toBe("https://example.com"));
 });
