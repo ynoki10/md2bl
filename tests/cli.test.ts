@@ -41,6 +41,7 @@ describe("CLI", () => {
   it("引数なし + TTY で usage を stderr に出力し exit 1", async () => {
     try {
       await execFileAsync("node", [
+        "--input-type=module",
         "-e",
         `Object.defineProperty(process.stdin,"isTTY",{value:true});await import("./dist/index.js")`,
       ]);
