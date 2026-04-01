@@ -190,11 +190,10 @@ describe("テーブル", () => {
 describe("フロントマター", () => {
   it("YAMLフロントマターをそのまま出力", () => {
     const md = `---\ntitle: Test\n---\n\n# Hello`;
-    const result = convert(md);
-    expect(result).toContain("---");
-    expect(result).toContain("title: Test");
-    expect(result).toContain("* Hello");
+    expect(convert(md)).toBe("---\ntitle: Test\n---\n* Hello");
   });
+  it("フロントマターのみ（本文なし）", () =>
+    expect(convert("---\ntitle: Test\n---")).toBe("---\ntitle: Test\n---"));
 });
 
 describe("段落", () => {
@@ -276,6 +275,20 @@ describe("未対応要素の警告", () => {
     const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
     convert("<div>html</div>");
     expect(spy).toHaveBeenCalled();
+    spy.mockRestore();
+  });
+  it("脚注入力でconsole.warnを出力", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    convert("text[^1]\n\n[^1]: footnote");
+    expect(spy).toHaveBeenCalled();
+    const messages = spy.mock.calls.map((c) => c[0] as string);
+    expect(messages.some((m) => m.includes("footnoteReference"))).toBe(true);
+    expect(messages.some((m) => m.includes("footnoteDefinition"))).toBe(true);
+    spy.mockRestore();
+  });
+  it("脚注はスキップされ本文のみ出力", () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    expect(convert("text[^1]\n\n[^1]: footnote")).toBe("text");
     spy.mockRestore();
   });
 });
