@@ -6,7 +6,7 @@ const execFileAsync = promisify(execFile);
 const CLI = "dist/index.js";
 
 beforeAll(async () => {
-  await execFileAsync("npm", ["run", "build"]);
+  await execFileAsync("pnpm", ["run", "build"]);
 }, 30_000);
 
 describe("CLI", () => {
