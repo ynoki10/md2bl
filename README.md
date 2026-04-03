@@ -14,6 +14,8 @@ Requires Node.js 18 or later.
 
 ```sh
 npm install -g md2bl
+# or
+pnpm add -g md2bl
 ```
 
 ## Usage
@@ -24,6 +26,8 @@ You can also use md2bl as a library in your Node.js/TypeScript project:
 
 ```sh
 npm install md2bl
+# or
+pnpm add md2bl
 ```
 
 ```ts
@@ -159,9 +163,9 @@ The following elements are skipped with a warning output to `stderr`.
 ## Development
 
 ```sh
-npm run dev          # Run directly with tsx (no build required)
-npm test             # Run tests with vitest
-npm run build        # Build TypeScript
+pnpm run dev         # Run directly with tsx (no build required)
+pnpm test            # Run tests with vitest
+pnpm run build       # Build TypeScript
 ```
 
 ## Tech Stack

@@ -14,6 +14,8 @@ Node.js 18 以上が必要です。
 
 ```sh
 npm install -g md2bl
+# or
+pnpm add -g md2bl
 ```
 
 ## 使い方
@@ -24,6 +26,8 @@ Node.js/TypeScript プロジェクトからプログラムで利用できます:
 
 ```sh
 npm install md2bl
+# or
+pnpm add md2bl
 ```
 
 ```ts
@@ -159,9 +163,9 @@ System.out.println("hello");
 ## 開発
 
 ```sh
-npm run dev          # tsx で直接実行（ビルド不要）
-npm test             # vitest でテスト実行
-npm run build        # TypeScript をビルド
+pnpm run dev         # tsx で直接実行（ビルド不要）
+pnpm test            # vitest でテスト実行
+pnpm run build       # TypeScript をビルド
 ```
 
 ## 技術スタック

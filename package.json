@@ -32,6 +32,7 @@
   "engines": {
     "node": ">=18"
   },
+  "packageManager": "pnpm@10.30.3",
   "license": "MIT",
   "author": "ynoki10",
   "repository": {
