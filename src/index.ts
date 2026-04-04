@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import { defineCommand, runMain, showUsage } from "citty";
 import { convert } from "./converter.js";
+
+const require = createRequire(import.meta.url);
+const { version } = require("../package.json") as { version: string };
 
 function readStdin(): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -12,33 +17,39 @@ function readStdin(): Promise<string> {
   });
 }
 
-async function main(): Promise<void> {
-  const args = process.argv.slice(2);
+const main = defineCommand({
+  meta: {
+    name: "md2bl",
+    version,
+    description: "Convert Markdown to Backlog notation",
+  },
+  args: {
+    file: {
+      type: "positional",
+      description: "Markdown file to convert",
+      required: false,
+    },
+  },
+  async run({ args }) {
+    let input: string;
 
-  let input: string;
-
-  if (args.length > 0 && !args[0].startsWith("-")) {
-    // ファイルパスが渡された場合
-    const filePath = args[0];
-    try {
-      input = readFileSync(filePath, "utf8");
-    } catch (_err) {
-      process.stderr.write(`[md2bl] ERROR: cannot read file "${filePath}"\n`);
+    if (args.file) {
+      try {
+        input = readFileSync(args.file, "utf8");
+      } catch {
+        process.stderr.write(`Error: Cannot read file "${args.file}"\n`);
+        process.exit(1);
+      }
+    } else if (!process.stdin.isTTY) {
+      input = await readStdin();
+    } else {
+      await showUsage(main);
       process.exit(1);
     }
-  } else if (!process.stdin.isTTY) {
-    // stdin からパイプされた場合
-    input = await readStdin();
-  } else {
-    process.stderr.write("Usage: md2bl <file.md>\n       cat file.md | md2bl\n");
-    process.exit(1);
-  }
 
-  const result = convert(input);
-  process.stdout.write(`${result}\n`);
-}
-
-main().catch((err) => {
-  process.stderr.write(`[md2bl] ERROR: ${err.message}\n`);
-  process.exit(1);
+    process.stdout.write(`${convert(input)}\n`);
+  },
 });
+
+const rawArgs = process.argv.slice(2).map((arg) => (arg === "-V" ? "--version" : arg));
+runMain(main, { rawArgs });
