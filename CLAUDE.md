@@ -10,6 +10,12 @@ pnpm test            # vitest でテスト一括実行
 pnpm run test:watch  # ウォッチモードでテスト実行
 pnpm run dev         # tsx でビルドなし実行 (開発用)
 pnpm vitest run tests/converter.test.ts  # 単一テスト実行例
+pnpm run lint        # Biome lint チェック
+pnpm run lint:fix    # Biome lint 自動修正
+pnpm run format      # Biome 自動フォーマット
+pnpm run format:check  # フォーマットチェック
+pnpm run typecheck   # TypeScript 型チェック (tsc --noEmit)
+pnpm run check       # lint + format + typecheck 一括
 ```
 
 ビルド後のバイナリ実行:

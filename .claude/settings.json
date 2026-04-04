@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Edit(**.ts)|Write(**.ts)",
+            "command": "bash .claude/hooks/lint-format.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

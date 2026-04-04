@@ -22,7 +22,7 @@ async function main(): Promise<void> {
     const filePath = args[0];
     try {
       input = readFileSync(filePath, "utf8");
-    } catch (err) {
+    } catch (_err) {
       process.stderr.write(`[md2bl] ERROR: cannot read file "${filePath}"\n`);
       process.exit(1);
     }
@@ -30,14 +30,12 @@ async function main(): Promise<void> {
     // stdin からパイプされた場合
     input = await readStdin();
   } else {
-    process.stderr.write(
-      "Usage: md2bl <file.md>\n       cat file.md | md2bl\n"
-    );
+    process.stderr.write("Usage: md2bl <file.md>\n       cat file.md | md2bl\n");
     process.exit(1);
   }
 
   const result = convert(input);
-  process.stdout.write(result + "\n");
+  process.stdout.write(`${result}\n`);
 }
 
 main().catch((err) => {
