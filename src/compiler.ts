@@ -1,25 +1,24 @@
 import type {
-  Root,
-  Heading,
-  Paragraph,
-  Text,
-  Strong,
-  Emphasis,
-  Delete,
-  InlineCode,
-  Code,
-  Link,
   Blockquote,
-  ThematicBreak,
-  Table,
-  TableRow,
-  TableCell,
+  Code,
+  Delete,
+  Emphasis,
+  Heading,
+  Html,
+  Image,
+  InlineCode,
+  Link,
   List,
   ListItem,
-  Break,
-  Image,
-  Html,
   Node,
+  Paragraph,
+  Root,
+  Strong,
+  Table,
+  TableCell,
+  TableRow,
+  Text,
+  ThematicBreak,
 } from "mdast";
 
 type CompileContext = {
@@ -31,10 +30,7 @@ function makeContext(): CompileContext {
   return { listDepth: 0, listOrdered: [] };
 }
 
-function compileChildren(
-  nodes: Node[],
-  ctx: CompileContext
-): string {
+function compileChildren(nodes: Node[], ctx: CompileContext): string {
   return nodes.map((n) => compileNode(n, ctx)).join("");
 }
 
@@ -80,9 +76,7 @@ export function compileNode(node: Node, ctx: CompileContext = makeContext()): st
       // フロントマターはそのまま出力
       return `---\n${(node as unknown as { value: string }).value}\n---`;
     default:
-      console.warn(
-        `[md2bl] WARNING: unsupported node type "${node.type}" — skipped`
-      );
+      console.warn(`[md2bl] WARNING: unsupported node type "${node.type}" — skipped`);
       return "";
   }
 }
@@ -157,9 +151,7 @@ function compileLink(node: Link, ctx: CompileContext): string {
 }
 
 function compileBlockquote(node: Blockquote, ctx: CompileContext): string {
-  const inner = node.children
-    .map((child) => compileNode(child, ctx))
-    .join("\n");
+  const inner = node.children.map((child) => compileNode(child, ctx)).join("\n");
   return inner
     .split("\n")
     .map((line) => `> ${line}`)
@@ -172,16 +164,10 @@ function compileThematicBreak(_node: ThematicBreak): string {
 
 function compileTable(node: Table, ctx: CompileContext): string {
   const rows = node.children as TableRow[];
-  return rows
-    .map((row, rowIndex) => compileTableRow(row, rowIndex === 0, ctx))
-    .join("\n");
+  return rows.map((row, rowIndex) => compileTableRow(row, rowIndex === 0, ctx)).join("\n");
 }
 
-function compileTableRow(
-  node: TableRow,
-  isHeader: boolean,
-  ctx: CompileContext
-): string {
+function compileTableRow(node: TableRow, isHeader: boolean, ctx: CompileContext): string {
   const cells = node.children as TableCell[];
   const compiled = cells.map((cell) => compileChildren(cell.children, ctx));
   return `| ${compiled.join(" | ")} |${isHeader ? "h" : ""}`;
@@ -192,9 +178,7 @@ function compileList(node: List, ctx: CompileContext): string {
     listDepth: ctx.listDepth + 1,
     listOrdered: [...ctx.listOrdered, node.ordered ?? false],
   };
-  return node.children
-    .map((item) => compileNode(item, newCtx))
-    .join("\n");
+  return node.children.map((item) => compileNode(item, newCtx)).join("\n");
 }
 
 function compileListItem(node: ListItem, ctx: CompileContext): string {
@@ -202,10 +186,7 @@ function compileListItem(node: ListItem, ctx: CompileContext): string {
   const ordered = ctx.listOrdered[ctx.listOrdered.length - 1] ?? false;
   const bullet = ordered ? "+".repeat(depth) : "-".repeat(depth);
 
-  const checkbox =
-    node.checked === true ? "[x] "
-    : node.checked === false ? "[ ] "
-    : "";
+  const checkbox = node.checked === true ? "[x] " : node.checked === false ? "[ ] " : "";
 
   let bulletUsed = false;
   const lines: string[] = [];
@@ -251,9 +232,7 @@ function compileImage(node: Image): string {
   return `#image(${node.url})`;
 }
 
-function compileHtml(node: Html): string {
-  console.warn(
-    `[md2bl] WARNING: raw HTML is not supported in Backlog notation — skipped`
-  );
+function compileHtml(_node: Html): string {
+  console.warn(`[md2bl] WARNING: raw HTML is not supported in Backlog notation — skipped`);
   return "";
 }

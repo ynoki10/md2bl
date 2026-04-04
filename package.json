@@ -20,7 +20,13 @@
     "build": "tsc",
     "dev": "tsx src/index.ts",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "lint": "biome lint",
+    "lint:fix": "biome lint --write",
+    "format": "biome format --write",
+    "format:check": "biome format",
+    "typecheck": "tsc --noEmit",
+    "check": "biome check && tsc --noEmit"
   },
   "keywords": [
     "markdown",
@@ -56,6 +62,7 @@
     "unified": "^11.0.5"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.10",
     "@types/mdast": "^4.0.4",
     "@types/node": "^22.0.0",
     "@types/unist": "^3.0.3",
