@@ -72,6 +72,46 @@ describe("CLI", () => {
     }
   });
 
+  it("--quote-style line で引用を > 記法で出力", async () => {
+    const { stdout } = await execFileAsync("node", [
+      CLI,
+      "--quote-style",
+      "line",
+      "tests/test-all-features.md",
+    ]);
+    expect(stdout).toContain("> ");
+  });
+
+  it("-q block で引用を {quote} 記法で出力", async () => {
+    const { stdout } = await execFileAsync("node", [
+      CLI,
+      "-q",
+      "block",
+      "tests/test-all-features.md",
+    ]);
+    expect(stdout).toContain("{quote}");
+  });
+
+  it("複数ファイルを連結して出力（ファイル間に空行）", async () => {
+    const { stdout } = await execFileAsync("node", [
+      CLI,
+      "tests/test-all-features.md",
+      "tests/test-all-features.md",
+    ]);
+    // 同じファイルを2回: 間に空行が入る
+    const singleResult = (
+      await execFileAsync("node", [CLI, "tests/test-all-features.md"])
+    ).stdout.trimEnd();
+    expect(stdout.trimEnd()).toBe(`${singleResult}\n\n${singleResult}`);
+  });
+
+  it("-c でクリップボードにコピーしつつ stdout にも出力", async () => {
+    if (process.platform !== "darwin") return;
+    const { stdout } = await execFileAsync("node", [CLI, "-c", "tests/test-all-features.md"]);
+    expect(stdout).toContain("* ");
+    expect(stdout.length).toBeGreaterThan(0);
+  });
+
   it("存在しないファイルで error を stderr に出力し exit 1", async () => {
     try {
       await execFileAsync("node", [CLI, "nonexistent-file.md"]);

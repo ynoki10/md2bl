@@ -20,23 +20,15 @@ pnpm add -g md2bl
 
 ## Usage
 
-### Programmatic Usage
+### CLI Options
 
-You can also use md2bl as a library in your Node.js/TypeScript project:
-
-```sh
-npm install md2bl
-# or
-pnpm add md2bl
-```
-
-```ts
-import { convert } from 'md2bl';
-
-const backlog = convert('# Hello **world**');
-console.log(backlog);
-// => * Hello ''world''
-```
+| Option | Description |
+|--------|-------------|
+| `<files...>` | Markdown file(s) to convert (multiple files are concatenated) |
+| `-c, --clipboard` | Copy output to clipboard (in addition to stdout) |
+| `-q, --quote-style <style>` | Quote style: `auto` (default), `line`, or `block` |
+| `-h, --help` | Show help |
+| `-V, --version` | Show version |
 
 ### Convert a file
 
@@ -51,10 +43,52 @@ cat input.md | md2bl
 echo "# Hello" | md2bl
 ```
 
+### Convert multiple files
+
+```sh
+md2bl file1.md file2.md
+md2bl docs/*.md
+```
+
+### Copy to clipboard
+
+```sh
+md2bl input.md -c
+md2bl input.md -c > output.txt  # file + clipboard
+```
+
+### Quote style
+
+```sh
+md2bl input.md --quote-style line   # always use > notation
+md2bl input.md -q block             # always use {quote} notation
+```
+
 ### Write to a file
 
 ```sh
 md2bl input.md > output.txt
+```
+
+### Programmatic Usage
+
+You can also use md2bl as a library in your Node.js/TypeScript project:
+
+```sh
+npm install md2bl
+# or
+pnpm add md2bl
+```
+
+```ts
+import { convert, type ConvertOptions } from 'md2bl';
+
+const backlog = convert('# Hello **world**');
+// => * Hello ''world''
+
+// With options
+const result = convert('> line1\n> line2', { quoteStyle: 'block' });
+// => {quote}\nline1\nline2\n{/quote}
 ```
 
 ## Conversion Example
@@ -132,7 +166,8 @@ System.out.println("hello");
 | ` ```lang` ... ` ``` ` | `{code}` ... `{/code}` (`java`/`cs` → `{code:lang}`) |
 | `[text](URL)` (text≠URL) | `[[text:URL]]` |
 | `[URL](URL)` / bare URL | URL output as-is |
-| `> blockquote` | `> blockquote` |
+| `> blockquote` (single line) | `> blockquote` |
+| `> blockquote` (multi-line, default `auto`) | `{quote}...{/quote}` |
 | `---` | `----` |
 | `- item` | `- item` |
 | `- nested` (2 levels) | `-- nested` |
@@ -181,6 +216,7 @@ pnpm run check       # Run lint + format + typecheck
 - [remark-gfm](https://github.com/remarkjs/remark-gfm) — GitHub Flavored Markdown support
 - [remark-frontmatter](https://github.com/remarkjs/remark-frontmatter) — YAML front matter support
 - [vitest](https://vitest.dev/) — Testing
+- [citty](https://github.com/unjs/citty) — CLI argument parsing
 - [Biome](https://biomejs.dev/) — Linting & Formatting
 
 ## License

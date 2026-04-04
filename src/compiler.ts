@@ -21,13 +21,16 @@ import type {
   ThematicBreak,
 } from "mdast";
 
+export type QuoteStyle = "auto" | "line" | "block";
+
 type CompileContext = {
   listDepth: number;
   listOrdered: boolean[];
+  quoteStyle: QuoteStyle;
 };
 
-function makeContext(): CompileContext {
-  return { listDepth: 0, listOrdered: [] };
+export function makeContext(quoteStyle: QuoteStyle = "auto"): CompileContext {
+  return { listDepth: 0, listOrdered: [], quoteStyle };
 }
 
 function compileChildren(nodes: Node[], ctx: CompileContext): string {
@@ -152,6 +155,13 @@ function compileLink(node: Link, ctx: CompileContext): string {
 
 function compileBlockquote(node: Blockquote, ctx: CompileContext): string {
   const inner = node.children.map((child) => compileNode(child, ctx)).join("\n");
+  const useBlock =
+    ctx.quoteStyle === "block" || (ctx.quoteStyle === "auto" && inner.includes("\n"));
+
+  if (useBlock) {
+    return `{quote}\n${inner}\n{/quote}`;
+  }
+
   return inner
     .split("\n")
     .map((line) => `> ${line}`)
@@ -177,6 +187,7 @@ function compileList(node: List, ctx: CompileContext): string {
   const newCtx: CompileContext = {
     listDepth: ctx.listDepth + 1,
     listOrdered: [...ctx.listOrdered, node.ordered ?? false],
+    quoteStyle: ctx.quoteStyle,
   };
   return node.children.map((item) => compileNode(item, newCtx)).join("\n");
 }

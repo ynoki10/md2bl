@@ -21,16 +21,24 @@ pnpm run check       # lint + format + typecheck 一括
 ビルド後のバイナリ実行:
 ```bash
 node dist/index.js input.md
+node dist/index.js file1.md file2.md
 cat input.md | node dist/index.js
+node dist/index.js input.md > output.txt
+node dist/index.js input.md -c
+node dist/index.js input.md --quote-style block
+node dist/index.js --help
+node dist/index.js --version
 ```
 
 ## アーキテクチャ
 
-変換パイプライン: **stdin/ファイル → `convert()` → AST → `compileNode()` → Backlog記法文字列 → stdout**
+変換パイプライン: **stdin/ファイル → `convert(input, options?)` → AST → `compileNode()` → Backlog記法文字列 → stdout（+ clipboard）**
 
-- `src/index.ts` — CLIエントリーポイント。ファイル引数またはstdinを読み込み、`convert()` を呼んで結果を stdout に出力。
-- `src/converter.ts` — unified/remark-parse でMarkdownをASTにパース。`remarkGfm`・`remarkFrontmatter` を使用。
-- `src/compiler.ts` — ASTノードをBacklog記法文字列に変換するコアロジック。`CompileContext` で再帰処理。
+- `src/index.ts` — CLIエントリーポイント。citty (`defineCommand`/`runMain`) で引数パース。ファイル引数（複数可）またはstdinを読み込み、`convert()` を呼んで結果を出力。`--clipboard`, `--quote-style` オプション対応。
+- `src/converter.ts` — unified/remark-parse でMarkdownをASTにパース。`ConvertOptions` で変換オプション（`quoteStyle` 等）を受け取る。`remarkGfm`・`remarkFrontmatter` を使用。
+- `src/compiler.ts` — ASTノードをBacklog記法文字列に変換するコアロジック。`CompileContext` で再帰処理。`QuoteStyle` で引用出力を制御。
+- `src/clipboard.ts` — プラットフォーム検出によるクリップボードコピー機能（macOS/Windows/Linux対応）。
+- `src/lib.ts` — ライブラリ公開 API。`convert()`, `ConvertOptions`, `QuoteStyle` を export。
 
 ## npm パッケージ
 
