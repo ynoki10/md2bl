@@ -20,23 +20,15 @@ pnpm add -g md2bl
 
 ## 使い方
 
-### ライブラリとして使う
+### CLI オプション
 
-Node.js/TypeScript プロジェクトからプログラムで利用できます:
-
-```sh
-npm install md2bl
-# or
-pnpm add md2bl
-```
-
-```ts
-import { convert } from 'md2bl';
-
-const backlog = convert('# Hello **world**');
-console.log(backlog);
-// => * Hello ''world''
-```
+| オプション | 説明 |
+|-----------|------|
+| `<files...>` | 変換する Markdown ファイル（複数指定で連結出力） |
+| `-c, --clipboard` | 変換結果をクリップボードにコピー（stdout 出力も維持） |
+| `-q, --quote-style <style>` | 引用スタイル: `auto`（デフォルト）, `line`, `block` |
+| `-h, --help` | ヘルプを表示 |
+| `-V, --version` | バージョンを表示 |
 
 ### ファイルを変換する
 
@@ -51,10 +43,52 @@ cat input.md | md2bl
 echo "# Hello" | md2bl
 ```
 
+### 複数ファイルを変換する
+
+```sh
+md2bl file1.md file2.md
+md2bl docs/*.md
+```
+
+### クリップボードにコピーする
+
+```sh
+md2bl input.md -c
+md2bl input.md -c > output.txt  # ファイル + クリップボード
+```
+
+### 引用スタイル
+
+```sh
+md2bl input.md --quote-style line   # 常に > 記法を使用
+md2bl input.md -q block             # 常に {quote} 記法を使用
+```
+
 ### ファイルに書き出す
 
 ```sh
 md2bl input.md > output.txt
+```
+
+### ライブラリとして使う
+
+Node.js/TypeScript プロジェクトからプログラムで利用できます:
+
+```sh
+npm install md2bl
+# or
+pnpm add md2bl
+```
+
+```ts
+import { convert, type ConvertOptions } from 'md2bl';
+
+const backlog = convert('# Hello **world**');
+// => * Hello ''world''
+
+// With options
+const result = convert('> line1\n> line2', { quoteStyle: 'block' });
+// => {quote}\nline1\nline2\n{/quote}
 ```
 
 ## 変換例
@@ -132,7 +166,8 @@ System.out.println("hello");
 | ` ```lang` ... ` ``` ` | `{code}` ... `{/code}` (`java`/`cs` → `{code:lang}`) |
 | `[テキスト](URL)` (テキスト≠URL) | `[[テキスト:URL]]` |
 | `[URL](URL)` / 裸の URL | URL をそのまま出力 |
-| `> 引用` | `> 引用` |
+| `> 引用`（1行） | `> 引用` |
+| `> 引用`（複数行、デフォルト `auto`） | `{quote}...{/quote}` |
 | `---` | `----` |
 | `- 箇条書き` | `- 箇条書き` |
 | `- ネスト` (2階層) | `-- ネスト` |
@@ -181,6 +216,7 @@ pnpm run check       # lint + format + typecheck 一括実行
 - [remark-gfm](https://github.com/remarkjs/remark-gfm) — GitHub Flavored Markdown 対応
 - [remark-frontmatter](https://github.com/remarkjs/remark-frontmatter) — YAML フロントマター対応
 - [vitest](https://vitest.dev/) — テスト
+- [citty](https://github.com/unjs/citty) — CLI 引数パース
 - [Biome](https://biomejs.dev/) — Lint & フォーマット
 
 ## ライセンス
