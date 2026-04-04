@@ -166,6 +166,12 @@ System.out.println("hello");
 pnpm run dev         # tsx で直接実行（ビルド不要）
 pnpm test            # vitest でテスト実行
 pnpm run build       # TypeScript をビルド
+pnpm run lint        # Biome で lint チェック
+pnpm run lint:fix    # Biome で lint 自動修正
+pnpm run format      # Biome でフォーマット
+pnpm run format:check  # フォーマットチェック
+pnpm run typecheck   # tsc --noEmit で型チェック
+pnpm run check       # lint + format + typecheck 一括実行
 ```
 
 ## 技術スタック
@@ -175,6 +181,7 @@ pnpm run build       # TypeScript をビルド
 - [remark-gfm](https://github.com/remarkjs/remark-gfm) — GitHub Flavored Markdown 対応
 - [remark-frontmatter](https://github.com/remarkjs/remark-frontmatter) — YAML フロントマター対応
 - [vitest](https://vitest.dev/) — テスト
+- [Biome](https://biomejs.dev/) — Lint & フォーマット
 
 ## ライセンス
 
