@@ -2,7 +2,7 @@
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { defineCommand, runMain, showUsage } from "citty";
-import { convert } from "./converter.js";
+import { convert, type QuoteStyle } from "./converter.js";
 
 const require = createRequire(import.meta.url);
 const { version } = require("../package.json") as { version: string };
@@ -29,8 +29,15 @@ const main = defineCommand({
       description: "Markdown file to convert",
       required: false,
     },
+    "quote-style": {
+      type: "string",
+      alias: "q",
+      description: 'Quote style: "auto", "line", or "block" (default: "auto")',
+      default: "auto",
+    },
   },
   async run({ args }) {
+    const quoteStyle = args["quote-style"] as QuoteStyle;
     let input: string;
 
     if (args.file) {
@@ -47,7 +54,7 @@ const main = defineCommand({
       process.exit(1);
     }
 
-    process.stdout.write(`${convert(input)}\n`);
+    process.stdout.write(`${convert(input, { quoteStyle })}\n`);
   },
 });
 

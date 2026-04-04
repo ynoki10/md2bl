@@ -72,6 +72,26 @@ describe("CLI", () => {
     }
   });
 
+  it("--quote-style line で引用を > 記法で出力", async () => {
+    const { stdout } = await execFileAsync("node", [
+      CLI,
+      "--quote-style",
+      "line",
+      "tests/test-all-features.md",
+    ]);
+    expect(stdout).toContain("> ");
+  });
+
+  it("-q block で引用を {quote} 記法で出力", async () => {
+    const { stdout } = await execFileAsync("node", [
+      CLI,
+      "-q",
+      "block",
+      "tests/test-all-features.md",
+    ]);
+    expect(stdout).toContain("{quote}");
+  });
+
   it("存在しないファイルで error を stderr に出力し exit 1", async () => {
     try {
       await execFileAsync("node", [CLI, "nonexistent-file.md"]);

@@ -59,13 +59,36 @@ describe("リンク", () => {
 
 describe("引用", () => {
   it("単一行引用", () => expect(convert("> quote text")).toBe("> quote text"));
-  it("複数行引用", () => expect(convert("> line1\n> line2")).toBe("> line1\n> line2"));
-  it("ネストした引用", () => expect(convert("> outer\n> > inner")).toBe("> outer\n> > inner"));
+  it("複数行引用", () =>
+    expect(convert("> line1\n> line2")).toBe("{quote}\nline1\nline2\n{/quote}"));
+  it("ネストした引用", () =>
+    expect(convert("> outer\n> > inner")).toBe("{quote}\nouter\n> inner\n{/quote}"));
   it("引用内の見出し", () => expect(convert("> # heading")).toBe("> * heading"));
-  it("引用内のリスト", () => expect(convert("> - item1\n> - item2")).toBe("> - item1\n> - item2"));
+  it("引用内のリスト", () =>
+    expect(convert("> - item1\n> - item2")).toBe("{quote}\n- item1\n- item2\n{/quote}"));
   it("引用内のコードブロック", () =>
-    expect(convert("> ```\n> code\n> ```")).toBe("> {code}\n> code\n> {/code}"));
-  it("複数段落の引用", () => expect(convert("> para1\n>\n> para2")).toBe("> para1\n> para2"));
+    expect(convert("> ```\n> code\n> ```")).toBe("{quote}\n{code}\ncode\n{/code}\n{/quote}"));
+  it("複数段落の引用", () =>
+    expect(convert("> para1\n>\n> para2")).toBe("{quote}\npara1\npara2\n{/quote}"));
+});
+
+describe("quoteStyle オプション", () => {
+  it("line: 複数行でも常に > を使用", () =>
+    expect(convert("> line1\n> line2", { quoteStyle: "line" })).toBe("> line1\n> line2"));
+  it("block: 単一行でも {quote} を使用", () =>
+    expect(convert("> quote text", { quoteStyle: "block" })).toBe("{quote}\nquote text\n{/quote}"));
+  it("block: 複数行", () =>
+    expect(convert("> line1\n> line2", { quoteStyle: "block" })).toBe(
+      "{quote}\nline1\nline2\n{/quote}",
+    ));
+  it("auto: 単一行は > を使用", () =>
+    expect(convert("> quote text", { quoteStyle: "auto" })).toBe("> quote text"));
+  it("auto: 複数行は {quote} を使用", () =>
+    expect(convert("> line1\n> line2", { quoteStyle: "auto" })).toBe(
+      "{quote}\nline1\nline2\n{/quote}",
+    ));
+  it("line: ネストした引用", () =>
+    expect(convert("> outer\n> > inner", { quoteStyle: "line" })).toBe("> outer\n> > inner"));
 });
 
 describe("水平線", () => {
