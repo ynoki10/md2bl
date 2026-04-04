@@ -33,18 +33,42 @@ describe("CLI", () => {
     expect(result.stdout).toBe("* Hello\n");
   });
 
-  it("引数なし + TTY で usage を stderr に出力し exit 1", async () => {
+  it("--help でヘルプを表示し exit 0", async () => {
+    const { stdout } = await execFileAsync("node", [CLI, "--help"], {
+      env: { ...process.env, NO_COLOR: "1" },
+    });
+    expect(stdout).toContain("md2bl");
+    expect(stdout).toContain("USAGE");
+  });
+
+  it("--version でバージョンを表示し exit 0", async () => {
+    const { stdout } = await execFileAsync("node", [CLI, "--version"]);
+    expect(stdout.trim()).toMatch(/^\d+\.\d+\.\d+$/);
+  });
+
+  it("-V でバージョンを表示し exit 0", async () => {
+    const { stdout } = await execFileAsync("node", [CLI, "-V"]);
+    expect(stdout.trim()).toMatch(/^\d+\.\d+\.\d+$/);
+  });
+
+  it("引数なし + TTY で usage を表示し exit 1", async () => {
     try {
-      await execFileAsync("node", [
-        "--input-type=module",
-        "-e",
-        `Object.defineProperty(process.stdin,"isTTY",{value:true});await import("./dist/index.js")`,
-      ]);
+      await execFileAsync(
+        "node",
+        [
+          "--input-type=module",
+          "-e",
+          `Object.defineProperty(process.stdin,"isTTY",{value:true});await import("./dist/index.js")`,
+        ],
+        {
+          env: { ...process.env, NO_COLOR: "1" },
+        },
+      );
       expect.fail("should have exited with code 1");
     } catch (err: unknown) {
-      const e = err as { code: number; stderr: string };
+      const e = err as { code: number; stdout: string; stderr: string };
       expect(e.code).toBe(1);
-      expect(e.stderr).toContain("Usage:");
+      expect(e.stdout).toContain("USAGE");
     }
   });
 
@@ -55,9 +79,7 @@ describe("CLI", () => {
     } catch (err: unknown) {
       const e = err as { code: number; stderr: string };
       expect(e.code).toBe(1);
-      expect(e.stderr).toContain("[md2bl] ERROR: cannot read file");
+      expect(e.stderr).toContain('Cannot read file "nonexistent-file.md"');
     }
   });
-
-  it.todo("main() の予期しない例外で catch ハンドラが動作");
 });
