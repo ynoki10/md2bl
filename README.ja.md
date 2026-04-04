@@ -171,7 +171,7 @@ pnpm run build       # TypeScript をビルド
 ## 技術スタック
 
 - TypeScript / Node.js (ESM)
-- [unified](https://unifiedjs.com/) / [remark](https://github.com/remarkjs/remark) — Markdown の AST パース
+- [unified](https://unifiedjs.com/) / [remark-parse](https://github.com/remarkjs/remark-parse) — Markdown の AST パース
 - [remark-gfm](https://github.com/remarkjs/remark-gfm) — GitHub Flavored Markdown 対応
 - [remark-frontmatter](https://github.com/remarkjs/remark-frontmatter) — YAML フロントマター対応
 - [vitest](https://vitest.dev/) — テスト

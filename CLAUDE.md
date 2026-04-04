@@ -23,7 +23,7 @@ cat input.md | node dist/index.js
 変換パイプライン: **stdin/ファイル → `convert()` → AST → `compileNode()` → Backlog記法文字列 → stdout**
 
 - `src/index.ts` — CLIエントリーポイント。ファイル引数またはstdinを読み込み、`convert()` を呼んで結果を stdout に出力。
-- `src/converter.ts` — unified/remark でMarkdownをASTにパース。`remarkGfm`・`remarkFrontmatter` を使用。
+- `src/converter.ts` — unified/remark-parse でMarkdownをASTにパース。`remarkGfm`・`remarkFrontmatter` を使用。
 - `src/compiler.ts` — ASTノードをBacklog記法文字列に変換するコアロジック。`CompileContext` で再帰処理。
 
 ## npm パッケージ
