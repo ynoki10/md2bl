@@ -10,7 +10,7 @@ Markdown を Backlog記法を利用しているBacklogプロジェクト の課�
 
 ## インストール
 
-Node.js 18 以上が必要です。
+Node.js 20 以上が必要です。
 
 ```sh
 npm install -g md2bl
