@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.4.0](https://github.com/ynoki10/md2bl/compare/md2bl-v0.3.0...md2bl-v0.4.0) (2026-04-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* default blockquote output changes from always '>' to auto-detecting single vs multi-line.
+
+### Features
+
+* CLI enhancements (quoteStyle, multiple files, clipboard) ([#92](https://github.com/ynoki10/md2bl/issues/92)) ([59f0e2a](https://github.com/ynoki10/md2bl/commit/59f0e2a5719fdcd9c0f34edfea2b5755e059a893))
+
+
+### Bug Fixes
+
+* use --input-type=module for Node 18 top-level await compat ([d3b5dc3](https://github.com/ynoki10/md2bl/commit/d3b5dc3e53527b319b3e2fc2bf78c67e3e406841))
+
 ## [0.3.0](https://github.com/ynoki10/md2bl/compare/md2bl-v0.2.0...md2bl-v0.3.0) (2026-03-23)
 
 
