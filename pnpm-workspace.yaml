@@ -1,0 +1,8 @@
+packages:
+  - "."
+
+# セキュリティ設定
+engineStrict: true
+onlyBuiltDependencies:
+  - esbuild
+minimumReleaseAge: 4320 # 3日 = 4320分

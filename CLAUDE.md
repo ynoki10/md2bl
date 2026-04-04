@@ -5,11 +5,11 @@ Markdown → Backlog記法 変換CLIツール (`md2bl`)
 ## Commands
 
 ```bash
-npm run build        # TypeScript コンパイル (src/ → dist/)
-npm test             # vitest でテスト一括実行
-npm run test:watch   # ウォッチモードでテスト実行
-npm run dev          # tsx でビルドなし実行 (開発用)
-npx vitest run tests/converter.test.ts  # 単一テスト実行例
+pnpm run build       # TypeScript コンパイル (src/ → dist/)
+pnpm test            # vitest でテスト一括実行
+pnpm run test:watch  # ウォッチモードでテスト実行
+pnpm run dev         # tsx でビルドなし実行 (開発用)
+pnpm vitest run tests/converter.test.ts  # 単一テスト実行例
 ```
 
 ビルド後のバイナリ実行:
@@ -29,7 +29,7 @@ cat input.md | node dist/index.js
 ## npm パッケージ
 
 - パッケージ名: `md2bl` / npm: https://www.npmjs.com/package/md2bl
-- インストール: `npm install -g md2bl`
+- インストール: `npm install -g md2bl` / `pnpm add -g md2bl`
 
 ## 関連ドキュメントの所在
 
