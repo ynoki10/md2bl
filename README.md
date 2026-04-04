@@ -166,6 +166,12 @@ The following elements are skipped with a warning output to `stderr`.
 pnpm run dev         # Run directly with tsx (no build required)
 pnpm test            # Run tests with vitest
 pnpm run build       # Build TypeScript
+pnpm run lint        # Lint with Biome
+pnpm run lint:fix    # Lint and auto-fix with Biome
+pnpm run format      # Format with Biome
+pnpm run format:check  # Check formatting
+pnpm run typecheck   # Type check with tsc --noEmit
+pnpm run check       # Run lint + format + typecheck
 ```
 
 ## Tech Stack
@@ -175,6 +181,7 @@ pnpm run build       # Build TypeScript
 - [remark-gfm](https://github.com/remarkjs/remark-gfm) — GitHub Flavored Markdown support
 - [remark-frontmatter](https://github.com/remarkjs/remark-frontmatter) — YAML front matter support
 - [vitest](https://vitest.dev/) — Testing
+- [Biome](https://biomejs.dev/) — Linting & Formatting
 
 ## License
 
