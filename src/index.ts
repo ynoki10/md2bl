@@ -2,6 +2,7 @@
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { defineCommand, runMain, showUsage } from "citty";
+import { copyToClipboard } from "./clipboard.js";
 import { convert, type QuoteStyle } from "./converter.js";
 
 const require = createRequire(import.meta.url);
@@ -51,6 +52,12 @@ const main = defineCommand({
       description: "Markdown file(s) to convert",
       required: false,
     },
+    clipboard: {
+      type: "boolean",
+      alias: "c",
+      description: "Copy output to clipboard",
+      default: false,
+    },
     "quote-style": {
       type: "string",
       alias: "q",
@@ -85,7 +92,18 @@ const main = defineCommand({
       process.exit(1);
     }
 
-    process.stdout.write(`${result}\n`);
+    const output = `${result}\n`;
+
+    if (args.clipboard) {
+      try {
+        copyToClipboard(output);
+      } catch (err) {
+        process.stderr.write(`Error: ${(err as Error).message}\n`);
+        process.exit(1);
+      }
+    }
+
+    process.stdout.write(output);
   },
 });
 

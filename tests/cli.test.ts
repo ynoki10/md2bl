@@ -105,6 +105,13 @@ describe("CLI", () => {
     expect(stdout.trimEnd()).toBe(`${singleResult}\n\n${singleResult}`);
   });
 
+  it("-c でクリップボードにコピーしつつ stdout にも出力", async () => {
+    if (process.platform !== "darwin") return;
+    const { stdout } = await execFileAsync("node", [CLI, "-c", "tests/test-all-features.md"]);
+    expect(stdout).toContain("* ");
+    expect(stdout.length).toBeGreaterThan(0);
+  });
+
   it("存在しないファイルで error を stderr に出力し exit 1", async () => {
     try {
       await execFileAsync("node", [CLI, "nonexistent-file.md"]);
