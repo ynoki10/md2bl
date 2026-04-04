@@ -171,7 +171,7 @@ pnpm run build       # Build TypeScript
 ## Tech Stack
 
 - TypeScript / Node.js (ESM)
-- [unified](https://unifiedjs.com/) / [remark](https://github.com/remarkjs/remark) — Markdown AST parsing
+- [unified](https://unifiedjs.com/) / [remark-parse](https://github.com/remarkjs/remark-parse) — Markdown AST parsing
 - [remark-gfm](https://github.com/remarkjs/remark-gfm) — GitHub Flavored Markdown support
 - [remark-frontmatter](https://github.com/remarkjs/remark-frontmatter) — YAML front matter support
 - [vitest](https://vitest.dev/) — Testing
