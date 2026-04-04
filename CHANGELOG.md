@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.1](https://github.com/ynoki10/md2bl/compare/md2bl-v0.4.0...md2bl-v0.4.1) (2026-04-04)
+
+
+### Bug Fixes
+
+* add npm auth config to release workflow ([56dcede](https://github.com/ynoki10/md2bl/commit/56dcede7e46608119bd028422ed591bec1b45a1f))
+* add npm auth config to release workflow ([9f14819](https://github.com/ynoki10/md2bl/commit/9f1481944decdad72008a5cc2159776df6232a9e))
+
 ## [0.4.0](https://github.com/ynoki10/md2bl/compare/md2bl-v0.3.0...md2bl-v0.4.0) (2026-04-04)
 
 
