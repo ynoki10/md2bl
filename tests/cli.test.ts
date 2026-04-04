@@ -92,6 +92,19 @@ describe("CLI", () => {
     expect(stdout).toContain("{quote}");
   });
 
+  it("複数ファイルを連結して出力（ファイル間に空行）", async () => {
+    const { stdout } = await execFileAsync("node", [
+      CLI,
+      "tests/test-all-features.md",
+      "tests/test-all-features.md",
+    ]);
+    // 同じファイルを2回: 間に空行が入る
+    const singleResult = (
+      await execFileAsync("node", [CLI, "tests/test-all-features.md"])
+    ).stdout.trimEnd();
+    expect(stdout.trimEnd()).toBe(`${singleResult}\n\n${singleResult}`);
+  });
+
   it("存在しないファイルで error を stderr に出力し exit 1", async () => {
     try {
       await execFileAsync("node", [CLI, "nonexistent-file.md"]);

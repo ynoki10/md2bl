@@ -17,6 +17,28 @@ function readStdin(): Promise<string> {
   });
 }
 
+/** rawArgs からオプション引数を除外し、positional 引数（ファイルパス）を抽出する */
+function extractFiles(rawArgs: string[]): string[] {
+  const files: string[] = [];
+  const optionsWithValue = new Set(["-q", "--quote-style"]);
+  let skipNext = false;
+  for (const arg of rawArgs) {
+    if (skipNext) {
+      skipNext = false;
+      continue;
+    }
+    if (optionsWithValue.has(arg)) {
+      skipNext = true;
+      continue;
+    }
+    if (arg.startsWith("-")) {
+      continue;
+    }
+    files.push(arg);
+  }
+  return files;
+}
+
 const main = defineCommand({
   meta: {
     name: "md2bl",
@@ -26,7 +48,7 @@ const main = defineCommand({
   args: {
     file: {
       type: "positional",
-      description: "Markdown file to convert",
+      description: "Markdown file(s) to convert",
       required: false,
     },
     "quote-style": {
@@ -36,25 +58,34 @@ const main = defineCommand({
       default: "auto",
     },
   },
-  async run({ args }) {
+  async run({ args, rawArgs }) {
     const quoteStyle = args["quote-style"] as QuoteStyle;
-    let input: string;
+    const options = { quoteStyle };
+    const files = extractFiles(rawArgs ?? []);
 
-    if (args.file) {
-      try {
-        input = readFileSync(args.file, "utf8");
-      } catch {
-        process.stderr.write(`Error: Cannot read file "${args.file}"\n`);
-        process.exit(1);
+    let result: string;
+
+    if (files.length > 0) {
+      const outputs: string[] = [];
+      for (const file of files) {
+        try {
+          const content = readFileSync(file, "utf8");
+          outputs.push(convert(content, options));
+        } catch {
+          process.stderr.write(`Error: Cannot read file "${file}"\n`);
+          process.exit(1);
+        }
       }
+      result = outputs.join("\n\n");
     } else if (!process.stdin.isTTY) {
-      input = await readStdin();
+      const input = await readStdin();
+      result = convert(input, options);
     } else {
       await showUsage(main);
       process.exit(1);
     }
 
-    process.stdout.write(`${convert(input, { quoteStyle })}\n`);
+    process.stdout.write(`${result}\n`);
   },
 });
 
