@@ -30,7 +30,6 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org'
 
       - run: pnpm install --frozen-lockfile
         if: ${{ steps.release.outputs.release_created }}
@@ -40,5 +39,3 @@ jobs:
 
       - run: pnpm publish --provenance --access public
         if: ${{ steps.release.outputs.release_created }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

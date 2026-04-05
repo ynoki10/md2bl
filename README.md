@@ -10,7 +10,7 @@ Converts Markdown into a format that can be pasted directly into issues, Wikis, 
 
 ## Installation
 
-Requires Node.js 20 or later.
+Requires Node.js 22 or later.
 
 ```sh
 npm install -g md2bl
