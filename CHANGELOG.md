@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.2](https://github.com/ynoki10/md2bl/compare/md2bl-v0.4.1...md2bl-v0.4.2) (2026-04-05)
+
+
+### Bug Fixes
+
+* use OIDC trusted publishing for npm publish ([d2ecf0b](https://github.com/ynoki10/md2bl/commit/d2ecf0b00e1abc841fc94d9cf562179b8de04f6f))
+* use OIDC trusted publishing for npm publish ([f65c082](https://github.com/ynoki10/md2bl/commit/f65c0826cbdd54bcc1cb66b06d18445b756e9985))
+
 ## [0.4.1](https://github.com/ynoki10/md2bl/compare/md2bl-v0.4.0...md2bl-v0.4.1) (2026-04-04)
 
 
