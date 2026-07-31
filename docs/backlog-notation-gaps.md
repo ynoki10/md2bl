@@ -51,6 +51,44 @@ Backlog公式ヘルプ（[Backlog記法](https://support-ja.backlog.com/hc/ja/ar
 
 Backlog記法にはテーブルセル内のパイプをエスケープする構文がないため、md2bl 側では回避できない。
 
+### 未対応ノードは警告つきで本文から除去される
+
+（2026-07-31 / md2bl 0.4.2 時点）
+
+変換できないノードに当たると stderr に警告を出し、**stdout の本文からはそのノードを取り除く**。stdout をそのまま Backlog に投稿する使い方では、投稿後のプレビューで初めて欠落に気づくことになる。
+
+現在このパスに入る入力:
+
+| 入力 | 警告 | 関連 issue |
+|---|---|---|
+| プレーンテキスト中の `<...>`（例: `?type=<key>`） | `raw HTML is not supported...` | [#110](https://github.com/ynoki10/md2bl/issues/110) |
+| HTML ブロック（例: `<div>本文</div>`）。タグだけでなく内側のテキストも失われる | 同上 | [#115](https://github.com/ynoki10/md2bl/issues/115) |
+| `<br>`。GFM のテーブルセル内は生の改行を書けないため、セル内改行の表現手段が無くなる | 同上 | [#112](https://github.com/ynoki10/md2bl/issues/112) |
+| 参照リンク・参照画像 (`[text][ref]`) と定義行。リンクテキスト・alt ごと失われる | `unsupported node type "linkReference"` / `"imageReference"` / `"definition"` | [#111](https://github.com/ynoki10/md2bl/issues/111) |
+| 脚注 (`[^1]`) と定義。注記の本文も失われる | `unsupported node type "footnoteReference"` / `"footnoteDefinition"` | [#113](https://github.com/ynoki10/md2bl/issues/113) |
+
+警告に入力の位置情報が含まれないため、長い文書では欠落箇所の特定が難しい（[#114](https://github.com/ynoki10/md2bl/issues/114)）。
+
+呼び出し側の回避策:
+
+- 山括弧を文字として残したいだけなら `&lt;` / `&gt;` で書く（`&lt;key&gt;` → `<key>`。警告も出ない）
+- コード表示にしてよいならインラインコードで囲む（`` `<key>` `` → `{code}<key>{/code}`）
+- 変換時に stderr の警告を確認し、出ていたら投稿前に本文を目視する
+
+### Unicode 絵文字は Backlog API に拒否される
+
+（2026-06-01 に実地確認）
+
+md2bl は Unicode 絵文字（`🙏` `✅` `⚠️` 等）を変換せずそのまま出力する。ただし Backlog API は課題・PR・コメントの本文でこれを受け付けず、投稿が次のエラーで失敗する。
+
+```
+Incorrect String: %F0%9F%99%8F...
+```
+
+4 バイト文字を格納できない列に当たっている挙動に見える。この制約は Backlog の公式ドキュメントには記載を見つけられていない。
+
+Backlog 絵文字記法（`:pray:` / `:white_check_mark:` / `:warning:` 等）は問題なく通る。呼び出し側で置換するか、変換対応（[#116](https://github.com/ynoki10/md2bl/issues/116)）を待つ。
+
 ## コード言語サポートについて
 
 Backlog記法の `{code:}` マクロがサポートする言語は **`java` と `cs`（C#）の2つのみ**。
